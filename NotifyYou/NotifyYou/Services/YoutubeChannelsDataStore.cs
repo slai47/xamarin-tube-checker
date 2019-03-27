@@ -11,16 +11,16 @@ namespace NotifyYou.Services
         List<NotificationSetting> settings;
         bool mockMode;
 
-        public YoutubeChannelsDataStore()
+        public YoutubeChannelsDataStore(bool mockMode)
         {
             channels = new List<Channel>();
             settings = new List<NotificationSetting>();
             // grab stored data from saved data
-            //this.mockMode = mockMode;
-            //if (mockMode)
-            //{
-            //    InsertMockData();
-            //}
+            this.mockMode = mockMode;
+            if (mockMode)
+            {
+                InsertMockData();
+            }
         }
 
 
