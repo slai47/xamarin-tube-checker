@@ -29,7 +29,7 @@ namespace NotifyYou.Services
             }
         }
 
-        public async Task<bool> AddItemAsync(Item item)
+        public async Task<bool> AddUpdateItemAsync(Item item)
         {
             items.Add(item);
 

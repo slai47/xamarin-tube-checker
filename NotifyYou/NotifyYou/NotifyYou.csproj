@@ -14,5 +14,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Models\Notificaiton.cs" />
+    <Compile Remove="Services\IChannelsDatastore.cs" />
+    <Compile Remove="Services\MockChannelsDataStore.cs" />
   </ItemGroup>
 </Project>

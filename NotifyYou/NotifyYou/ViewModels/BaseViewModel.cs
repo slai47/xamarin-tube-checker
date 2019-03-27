@@ -13,6 +13,7 @@ namespace NotifyYou.ViewModels
     public class BaseViewModel : INotifyPropertyChanged
     {
         public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>() ?? new MockDataStore();
+        public IChannelsDataStore ChannelInfo => DependencyService.Get<IChannelsDataStore>() ?? new YoutubeChannelsDataStore(true);
 
         string title = string.Empty;
         public string Title

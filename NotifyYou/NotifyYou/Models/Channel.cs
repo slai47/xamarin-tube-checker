@@ -3,12 +3,9 @@ namespace NotifyYou.Models
 {
     public class Channel
     {
-        public string name { get; set; }
-        public string link { get; set; }
-
-        public Channel(string name)
-        {
-            this.name = name;
-        }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Link { get; set; }
+        public string ImageUri { get; set; }
     }
 }

@@ -3,12 +3,13 @@ namespace NotifyYou.Models
 {
     public class NotificationSetting
     {
-        public Boolean active { get; set; }
-        public Boolean sound { get; set; }
+        public string ChannelId { get; set; }
+        public bool Active { get; set; }
+        public bool Sound { get; set; }
 
-        public NotificationSetting()
+        public NotificationSetting(string id)
         {
-
+            ChannelId = id;
         }
     }
 }
