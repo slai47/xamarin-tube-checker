@@ -16,4 +16,7 @@
     <Compile Remove="Models\Notificaiton.cs" />
     <Compile Remove="Services\MockChannelsDataStore.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="API\" />
+  </ItemGroup>
 </Project>
