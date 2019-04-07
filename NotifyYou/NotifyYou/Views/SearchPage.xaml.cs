@@ -16,6 +16,8 @@ namespace NotifyYou.Views
             InitializeComponent();
 
             BindingContext = this.searchViewModel = new SearchViewModel();
+
+            SearchListView.ItemsSource = searchViewModel.SearchList;
         }
 
         public void Search_Clicked(object sender, EventArgs e)

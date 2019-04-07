@@ -7,8 +7,7 @@
             <ListView x:Name="SearchListView" 
                       ItemsSource="{Binding SearchList}" 
                       VerticalOptions="FillAndExpand" 
-                      HasUnevenRows="true" 
-                      IsPullToRefreshEnabled="true" 
+                      HasUnevenRows="false" 
                       IsRefreshing="{Binding IsBusy, Mode=OneWay}" 
                       CachingStrategy="RecycleElement" 
                       ItemSelected="OnItemSelected">
@@ -22,7 +21,7 @@
                                        FontSize="16" />
                                 
                                 <Switch x:Name="enabled"
-                                        IsToggled="{Binding IsActive}"
+                                        
                                         />
                             </StackLayout>
                         </ViewCell>
@@ -44,7 +43,7 @@
                        />
                 <Button 
                     Grid.Column="4"
-                    Grid.ColumnSpan="1"
+                    Grid.ColumnSpan="2"
                     x:Name="SearchButton"
                     Text="Search"
                     Clicked="Search_Clicked"

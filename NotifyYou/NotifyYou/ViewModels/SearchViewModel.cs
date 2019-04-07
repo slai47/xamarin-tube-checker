@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using NotifyYou.API;
 using NotifyYou.Models;
 using NotifyYou.Models.Channel;
@@ -9,12 +10,12 @@ namespace NotifyYou.ViewModels
 {
     public class SearchViewModel : BaseViewModel
     {
-        List<YoutubeChannel> SearchList;
+        public ObservableCollection<YoutubeChannel> SearchList;
 
         public SearchViewModel()
         {
             Title = "Searching";
-            SearchList = new List<YoutubeChannel>();
+            SearchList = new ObservableCollection<YoutubeChannel>();
 
         }
 
@@ -23,8 +24,11 @@ namespace NotifyYou.ViewModels
             // call api to get channels with a text.
             IYoutube api = new YoutubeApi();
             var call = api.GetChannels(search);
-            SearchList = call.Result.items;
-            Console.Out.Write("SearchList = " + SearchList.Count);
+            foreach (var item in call.Result.items)
+            {
+                SearchList.Add(item);
+            }
+            Console.Out.WriteLine("SearchList " + SearchList.Count);
         }
     }
 }
