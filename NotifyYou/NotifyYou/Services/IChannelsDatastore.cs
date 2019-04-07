@@ -7,10 +7,10 @@ namespace NotifyYou.Services
 {
     public interface IChannelsDataStore
     {
-        Task<bool> AddUpdateAsync(Channel item, NotificationSetting setting = null);
+        Task<bool> AddUpdateAsync(StoredChannel item, NotificationSetting setting = null);
         Task<bool> DeleteAsync(string id);
-        Task<Channel> GetAsync(string id);
-        Task<IEnumerable<Channel>> GetAllChannelsAsync();
+        Task<StoredChannel> GetAsync(string id);
+        Task<IEnumerable<StoredChannel>> GetAllChannelsAsync();
         Task<IEnumerable<NotificationSetting>> GetAllSettingsAsync();
         Task<NotificationSetting> GetSettingAsync(string id);
         Task<bool> UpdateNotificationSetting(string id, NotificationSetting setting);

@@ -20,12 +20,12 @@ namespace NotifyYou.Views
 
         public void Search_Clicked(object sender, EventArgs e)
         {
-
+            searchViewModel.search(SearchText.Text);
         }
 
         public void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {
-
+            
         }
     }
 }

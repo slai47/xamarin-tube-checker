@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />  
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Models\Notificaiton.cs" />
@@ -18,5 +19,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="API\" />
+    <Folder Include="Models\Activity\" />
+    <Folder Include="Models\Channel\" />
+    <Folder Include="Models\Base\" />
   </ItemGroup>
 </Project>

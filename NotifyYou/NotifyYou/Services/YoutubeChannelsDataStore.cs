@@ -7,13 +7,13 @@ namespace NotifyYou.Services
 {
     public class YoutubeChannelsDataStore : IChannelsDataStore
     {
-        List<Channel> channels;
+        List<StoredChannel> channels;
         List<NotificationSetting> settings;
         bool mockMode;
 
         public YoutubeChannelsDataStore(bool mockMode)
         {
-            channels = new List<Channel>();
+            channels = new List<StoredChannel>();
             settings = new List<NotificationSetting>();
             // grab stored data from saved data
             this.mockMode = mockMode;
@@ -26,7 +26,7 @@ namespace NotifyYou.Services
 
         #region Interface methods
 
-        public async Task<bool> AddUpdateAsync(Channel item, NotificationSetting setting = null)
+        public async Task<bool> AddUpdateAsync(StoredChannel item, NotificationSetting setting = null)
         {
             bool exists = channels.Exists(channel => channel.Id == item.Id);
             if (!exists)
@@ -60,13 +60,13 @@ namespace NotifyYou.Services
             return await Task.FromResult(true);
         }
 
-        public async Task<Channel> GetAsync(string id)
+        public async Task<StoredChannel> GetAsync(string id)
         {
-            Channel channel = channels.Find(chan => chan.Id == id);
+            StoredChannel channel = channels.Find(chan => chan.Id == id);
             return await Task.FromResult(channel);
         }
 
-        public async Task<IEnumerable<Channel>> GetAllChannelsAsync()
+        public async Task<IEnumerable<StoredChannel>> GetAllChannelsAsync()
         {
             return await Task.FromResult(channels);
         }
@@ -109,14 +109,14 @@ namespace NotifyYou.Services
 
         public void InsertMockData()
         {
-            var mockItems = new List<Channel>
+            var mockItems = new List<StoredChannel>
             {
-                new Channel { Id = Guid.NewGuid().ToString(), Name = "Phillip Defranco", Link="" },
-                new Channel { Id = Guid.NewGuid().ToString(), Name = "MCGamerz", Link="" },
-                new Channel { Id = Guid.NewGuid().ToString(), Name = "Brozime", Link="" },
-                new Channel { Id = Guid.NewGuid().ToString(), Name = "NPR", Link="" },
-                new Channel { Id = Guid.NewGuid().ToString(), Name = "Quiet Shallow", Link="" },
-                new Channel { Id = Guid.NewGuid().ToString(), Name = "Screen Junkies", Link="" },
+                new StoredChannel { Id = Guid.NewGuid().ToString(), Name = "Phillip Defranco", Link="" },
+                new StoredChannel { Id = Guid.NewGuid().ToString(), Name = "MCGamerz", Link="" },
+                new StoredChannel { Id = Guid.NewGuid().ToString(), Name = "Brozime", Link="" },
+                new StoredChannel { Id = Guid.NewGuid().ToString(), Name = "NPR", Link="" },
+                new StoredChannel { Id = Guid.NewGuid().ToString(), Name = "Quiet Shallow", Link="" },
+                new StoredChannel { Id = Guid.NewGuid().ToString(), Name = "Screen Junkies", Link="" },
             };
 
             var mockSettings = new List<NotificationSetting>
