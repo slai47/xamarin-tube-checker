@@ -19,5 +19,6 @@ namespace NotifyYou.Models.Channel
                 return id.channelId;
             }
         }
+        public Boolean IsActive { get; set; }
     }
 }

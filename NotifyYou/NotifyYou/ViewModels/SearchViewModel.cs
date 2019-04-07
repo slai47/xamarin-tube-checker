@@ -11,8 +11,6 @@ namespace NotifyYou.ViewModels
     {
         List<YoutubeChannel> SearchList;
 
-
-
         public SearchViewModel()
         {
             Title = "Searching";
@@ -20,13 +18,13 @@ namespace NotifyYou.ViewModels
 
         }
 
-        public void search(string search)
+        public void Search(string search)
         {
             // call api to get channels with a text.
             IYoutube api = new YoutubeApi();
-            YoutubeCall<YoutubeChannel> call = api.GetChannels(search).Result;
-            SearchList = call.items;
-
+            var call = api.GetChannels(search);
+            SearchList = call.Result.items;
+            Console.Out.Write("SearchList = " + SearchList.Count);
         }
     }
 }

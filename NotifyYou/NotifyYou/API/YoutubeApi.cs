@@ -32,7 +32,7 @@ namespace NotifyYou.API
 
             var uri = new Uri(GenerateUrl(ACTIIVTY, "&channelId=" + id ));
 
-            var response = await _client.GetAsync(uri);
+            var response = await _client.GetAsync(uri).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
@@ -51,9 +51,9 @@ namespace NotifyYou.API
         {
             YoutubeCall<YoutubeChannel> activity = new YoutubeCall<YoutubeChannel>();
 
-            var uri = new Uri(GenerateUrl(ACTIIVTY, "&q=" + search + "&type=channel"));
+            var uri = new Uri(GenerateUrl(SEARCH, "&q=" + search + "&type=channel"));
 
-            var response = await _client.GetAsync(uri);
+            var response = await _client.GetAsync(uri).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();

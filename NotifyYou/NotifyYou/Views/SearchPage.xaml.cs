@@ -11,21 +11,26 @@ namespace NotifyYou.Views
     {
         SearchViewModel searchViewModel;
 
-        public SearchPage(SearchViewModel viewModel)
+        public SearchPage()
         {
             InitializeComponent();
 
-            BindingContext = this.searchViewModel = viewModel;
+            BindingContext = this.searchViewModel = new SearchViewModel();
         }
 
         public void Search_Clicked(object sender, EventArgs e)
         {
-            searchViewModel.search(SearchText.Text);
+            searchViewModel.Search(SearchText.Text);
         }
 
         public void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {
             
+        }
+
+        public void Handle_Toggled(object sender, Xamarin.Forms.ToggledEventArgs e)
+        {
+
         }
     }
 }

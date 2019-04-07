@@ -5,10 +5,9 @@
     <ContentPage.Content>
         <StackLayout>
             <ListView x:Name="SearchListView" 
-                      ItemsSource="{Binding SearchItems}" 
+                      ItemsSource="{Binding SearchList}" 
                       VerticalOptions="FillAndExpand" 
                       HasUnevenRows="true" 
-                      RefreshCommand="{Binding LoadItemsCommand}" 
                       IsPullToRefreshEnabled="true" 
                       IsRefreshing="{Binding IsBusy, Mode=OneWay}" 
                       CachingStrategy="RecycleElement" 
@@ -17,10 +16,14 @@
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout Padding="10">
-                                <Label Text="{Binding Text}" 
+                                <Label Text="{Binding ChannelTitle}" 
                                        LineBreakMode="NoWrap" 
                                        Style="{DynamicResource ListItemTextStyle}" 
                                        FontSize="16" />
+                                
+                                <Switch x:Name="enabled"
+                                        IsToggled="{Binding IsActive}"
+                                        />
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
