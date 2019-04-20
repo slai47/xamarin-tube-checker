@@ -26,7 +26,7 @@ namespace NotifyYou.Services
 
         #region Interface methods
 
-        public async Task<bool> AddUpdateAsync(StoredChannel item, NotificationSetting setting = null)
+        public void AddUpdate(StoredChannel item, NotificationSetting setting = null)
         {
             bool exists = channels.Exists(channel => channel.Id == item.Id);
             if (!exists)
@@ -49,44 +49,63 @@ namespace NotifyYou.Services
                 }
             }
 
-            return await Task.FromResult(true);
         }
 
-        public async Task<bool> DeleteAsync(string id)
+        public bool Delete(string id)
         {
             channels.RemoveAll(channel => channel.Id == id);
             settings.RemoveAll(setting => setting.ChannelId == id);
 
-            return await Task.FromResult(true);
+            return true;
         }
 
-        public async Task<StoredChannel> GetAsync(string id)
+        public StoredChannel Get(string id)
         {
             StoredChannel channel = channels.Find(chan => chan.Id == id);
-            return await Task.FromResult(channel);
+            return channel;
         }
 
-        public async Task<IEnumerable<StoredChannel>> GetAllChannelsAsync()
+        public ICollection<StoredChannel> GetAllChannels()
         {
-            return await Task.FromResult(channels);
+            return channels;
         }
 
-        public async Task<IEnumerable<NotificationSetting>> GetAllSettingsAsync()
+        public ICollection<NotificationSetting> GetAllSettings()
         {
-            return await Task.FromResult(settings);
+            return settings;
         }
 
-        public async Task<NotificationSetting> GetSettingAsync(string id)
+        public NotificationSetting GetSetting(string id)
         {
             NotificationSetting setting = settings.Find(set => set.ChannelId == id);
-            return await Task.FromResult(setting);
+            return setting;
         }
 
-        public async Task<bool> UpdateNotificationSetting(string id, NotificationSetting setting)
+        public bool UpdateNotificationSetting(string id, NotificationSetting setting)
         {
             int index = FindIndexOfSettingId(id);
             settings[index] = setting;
-            return await Task.FromResult(true);
+            return true;
+        }
+
+        public Task<bool> Save()
+        {
+            return Task.FromResult(true);
+        }
+
+        public Task<bool> Init()
+        {
+            return Task.FromResult(true);
+        }
+
+        public Task<bool> SaveDb()
+        {
+            return Task.FromResult(true);
+        }
+
+        public Task<bool> InitDb()
+        {
+            return Task.FromResult(true);
         }
 
         #endregion

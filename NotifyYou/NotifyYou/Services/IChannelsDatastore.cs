@@ -7,12 +7,17 @@ namespace NotifyYou.Services
 {
     public interface IChannelsDataStore
     {
-        Task<bool> AddUpdateAsync(StoredChannel item, NotificationSetting setting = null);
-        Task<bool> DeleteAsync(string id);
-        Task<StoredChannel> GetAsync(string id);
-        Task<IEnumerable<StoredChannel>> GetAllChannelsAsync();
-        Task<IEnumerable<NotificationSetting>> GetAllSettingsAsync();
-        Task<NotificationSetting> GetSettingAsync(string id);
-        Task<bool> UpdateNotificationSetting(string id, NotificationSetting setting);
+        void AddUpdate(StoredChannel item, NotificationSetting setting = null);
+        bool Delete(string id);
+        StoredChannel Get(string id);
+        ICollection<StoredChannel> GetAllChannels();
+        ICollection<NotificationSetting> GetAllSettings();
+        NotificationSetting GetSetting(string id);
+        bool UpdateNotificationSetting(string id, NotificationSetting setting);
+
+        Task<bool> Save();
+        Task<bool> Init();
+        Task<bool> SaveDb();
+        Task<bool> InitDb();
     }
 }

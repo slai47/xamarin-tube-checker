@@ -4,12 +4,12 @@ namespace NotifyYou.Models.Channel
     public class YoutubeChannel
     {
         public ChannelId id { get; set; }
-        public ChannelSnippet snippet { get; set; }
+        public ChannelSnippet Snippet { get; set; }
         public string ChannelTitle
         {
             get
             {
-                return snippet.channelTitle;
+                return Snippet.channelTitle;
             }
         }
         public string ChannelId
@@ -19,6 +19,6 @@ namespace NotifyYou.Models.Channel
                 return id.channelId;
             }
         }
-        public Boolean IsActive { get; set; }
+        public bool IsActive { get; set; }
     }
 }

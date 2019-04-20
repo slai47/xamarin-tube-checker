@@ -62,7 +62,6 @@ namespace NotifyYou.API
             else
             {
                 activity.code = response.StatusCode;
-
             }
 
             return await Task.FromResult(activity);
