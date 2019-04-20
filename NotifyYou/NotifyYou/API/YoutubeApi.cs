@@ -17,7 +17,7 @@ namespace NotifyYou.API
         const string CHANNELS = "channels";
         const string ACTIIVTY = "activities";
         const string PART = "part=snippet";
-        const string API_KEY = "&key=AIzaSyBXr_YJWJIi5SSOCIESPeIaVb7bUGu4pSM";
+        const string API_KEY = "&key=";
 
         HttpClient _client;
 
@@ -70,7 +70,7 @@ namespace NotifyYou.API
 
         private string GenerateUrl(string pathVar, string extras)
         {
-            return BASE_YOUTUBE_URL + pathVar + "?" + PART + extras + API_KEY;
+            return BASE_YOUTUBE_URL + pathVar + "?" + PART + extras + API_KEY + YoutubeApiKey.Key;
         }
 
     }
