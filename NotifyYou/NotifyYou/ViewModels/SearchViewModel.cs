@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using NotifyYou.API;
-using NotifyYou.Models;
 using NotifyYou.Models.Channel;
 using Xamarin.Forms;
 using System.Linq;

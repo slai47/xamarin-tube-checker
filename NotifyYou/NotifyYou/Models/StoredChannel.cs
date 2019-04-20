@@ -15,7 +15,7 @@ namespace NotifyYou.Models
             ChannelId = channel.ChannelId;
             Name = channel.ChannelTitle;
             Link = "https://www.youtube.com/channel/" + ChannelId;
-            ImageUri = channel.Snippet.thumbnails;
+            ImageUri = channel.Snippet.Thumbnails;
         }
 
         public string Id { get; set; }

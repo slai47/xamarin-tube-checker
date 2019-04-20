@@ -7,7 +7,7 @@
             <ListView x:Name="SearchListView" 
                       ItemsSource="{Binding SearchList}" 
                       VerticalOptions="FillAndExpand" 
-                      HasUnevenRows="false" 
+                      HasUnevenRows="true" 
                       CachingStrategy="RecycleElement" 
                       ItemTapped="Handle_ItemTapped"
                       SelectionMode="None"
@@ -15,17 +15,45 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Padding="10" Orientation="Horizontal" InputTransparent="true">
-                                <Label Text="{Binding ChannelTitle}" 
-                                       LineBreakMode="NoWrap" 
-                                       Style="{DynamicResource ListItemTextStyle}" 
-                                       FontSize="16" />
-                                
-                                <Switch x:Name="enabled"
-                                        IsEnabled="true"
-                                        VerticalOptions="End"
-                                        IsToggled="{Binding IsActive}"
-                                        />
+                            <StackLayout Padding="10" 
+                                         Orientation="Vertical" 
+                                         InputTransparent="true"
+                                         >
+                                <Image Aspect="AspectFit"
+                                       Source="{Binding ImageLink}"
+                                       HeightRequest="150"
+                                       HorizontalOptions="CenterAndExpand"
+                                       />
+                                <Grid InputTransparent="true">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <Label 
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="1"
+                                        Text="{Binding ChannelTitle}" 
+                                           LineBreakMode="NoWrap" 
+                                           HorizontalOptions="Start"
+                                           VerticalOptions="Center"
+                                           Style="{DynamicResource ListItemTextStyle}" 
+                                           FontSize="16" />
+                                    
+                                    <Switch 
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2"
+                                        x:Name="enabled"
+                                            IsEnabled="true"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="End"
+                                            IsToggled="{Binding IsActive}"
+                                            />
+                                </Grid>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
@@ -40,7 +68,6 @@
                     Grid.ColumnSpan="3"
                     VerticalOptions="FillAndExpand"
                     x:Name="SearchText"
-                    Text=""
                    Keyboard="Text"
                        />
                 <Button 

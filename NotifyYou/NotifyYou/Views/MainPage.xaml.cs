@@ -10,6 +10,7 @@ namespace NotifyYou.Views
     {
         public MainPage()
         {
+            NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
             // Children.Insert(0, FeedPage.cs) Use this to add a child if we need it. 
         }

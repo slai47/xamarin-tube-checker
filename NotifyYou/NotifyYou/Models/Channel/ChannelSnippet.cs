@@ -4,12 +4,12 @@ namespace NotifyYou.Models.Channel
 {
     public class ChannelSnippet
     {
-        public string publishedAt { get; set; }
-        public string channelId { get; set; }
-        public string title { get; set; }
-        public string description { get; set; }
-        public Thumbnails thumbnails { get; set; }
-        public string channelTitle { get; set; }
-        public ChannelId id {get;set;}
+        public string PublishedAt { get; set; }
+        public string ChannelId { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public Thumbnails Thumbnails { get; set; }
+        public string ChannelTitle { get; set; }
+        public ChannelId Id {get;set;}
     }
 }
