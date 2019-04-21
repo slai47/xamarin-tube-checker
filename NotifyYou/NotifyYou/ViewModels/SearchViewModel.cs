@@ -4,6 +4,7 @@ using NotifyYou.API;
 using NotifyYou.Models.Channel;
 using Xamarin.Forms;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NotifyYou.ViewModels
 {
@@ -51,17 +52,24 @@ namespace NotifyYou.ViewModels
                 {
                     SearchList.Clear();
                 }
-                // call api to get channels with a text.
-                IYoutube api = new YoutubeApi();
-                var call = api.GetChannels(search);
-                var current = App.channelsDatastore.GetAllChannels();
-                foreach (var item in call.Result.items)
+                Task.Run( async () =>
                 {
-                    item.IsActive = current.Any(obj => obj.ChannelId == item.ChannelId);
-                    SearchList.Add(item);
-                }
-                Console.Out.WriteLine("SearchList " + SearchList.Count);
-                Toggle(false);
+                    // call api to get channels with a text.
+                    IYoutube api = new YoutubeApi();
+                    var call = await api.GetChannels(search);
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        var current = App.channelsDatastore.GetAllChannels();
+                        foreach (var item in call.items)
+                        {
+                            item.IsActive = current.Any(obj => obj.ChannelId == item.ChannelId);
+                            SearchList.Add(item);
+                        }
+                        Console.Out.WriteLine("SearchList " + SearchList.Count);
+                        Toggle(false);
+                    });
+
+                });
             }
         }
 

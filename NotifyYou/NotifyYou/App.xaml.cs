@@ -23,15 +23,12 @@ namespace NotifyYou
         {
             // Handle when your app starts
             channelsDatastore = new YoutubeChannelsDataStore(false);
-            //channelsDatastore.Init();
-            //channelsDatastore.InitDb();
+            channelsDatastore.Init();
         }
 
         protected override void OnSleep()
         {
             // Handle when your app sleeps
-            channelsDatastore.Save();
-            //channelsDatastore.SaveDb(); // Future work
         }
 
         protected override void OnResume()

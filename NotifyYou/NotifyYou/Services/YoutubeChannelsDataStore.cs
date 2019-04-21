@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using NotifyYou.Models;
+using SQLite;
 
 namespace NotifyYou.Services
 {
@@ -35,26 +38,35 @@ namespace NotifyYou.Services
                 if(setting == null)
                 {
                     setting = new NotificationSetting(item.Id);
+                    Save(setting);
                 }
                 settings.Add(setting);
+                Save(item);
             }
             else
             {
                 int index = FindIndexOfChannelId(item.Id);
                 channels[index] = item;
+                Update(item);
                 if(setting != null)
                 {
                     int settingIndex = FindIndexOfSettingId(item.Id);
                     settings[settingIndex] = setting;
+                    Update(setting);
                 }
             }
 
         }
 
-        public bool Delete(string id)
+        private bool Delete(string id)
         {
-            channels.RemoveAll(channel => channel.Id == id);
-            settings.RemoveAll(setting => setting.ChannelId == id);
+            StoredChannel channel = channels.First(c => c.Id == id);
+            channels.Remove(channel);
+            NotificationSetting setting = settings.First(c => channel.ChannelId == id);
+            settings.Remove(setting);
+
+            DeleteChannel(channel.Id, channel.ImageUri.Id);
+            DeleteSetting(channel.ChannelId);
 
             return true;
         }
@@ -88,24 +100,74 @@ namespace NotifyYou.Services
             return true;
         }
 
-        public Task<bool> Save()
-        {
-            return Task.FromResult(true);
-        }
-
         public Task<bool> Init()
         {
+            // Get an absolute path to the database file
+            var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "NotifyYou.db");
+
+            var db = new SQLiteConnection(databasePath);
+            db.CreateTable<StoredChannel>();
+            db.CreateTable<Thumbnails>();
+            db.CreateTable<NotificationSetting>();
+
+            channels = db.Table<StoredChannel>().ToList();
+            settings = db.Table<NotificationSetting>().ToList();
+
             return Task.FromResult(true);
         }
 
-        public Task<bool> SaveDb()
+        private void Save(StoredChannel channel)
         {
-            return Task.FromResult(true);
+            var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "NotifyYou.db");
+
+            var db = new SQLiteAsyncConnection(databasePath);
+            db.InsertAsync(channel);
+            db.InsertAsync(channel.ImageUri);
         }
 
-        public Task<bool> InitDb()
+        private void Update(StoredChannel channel)
         {
-            return Task.FromResult(true);
+            var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "NotifyYou.db");
+
+            var db = new SQLiteAsyncConnection(databasePath);
+            db.UpdateAsync(channel);
+            db.UpdateAsync(channel.ImageUri);
+        }
+
+        private void Save(NotificationSetting setting)
+        {
+            var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "NotifyYou.db");
+
+            var db = new SQLiteAsyncConnection(databasePath);
+            db.InsertAsync(setting);
+        }
+
+        private void Update(NotificationSetting setting)
+        {
+            var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "NotifyYou.db");
+
+            var db = new SQLiteAsyncConnection(databasePath);
+            db.UpdateAsync(setting);
+        }
+
+        private void DeleteChannel(String channelId, int thumbnailID = -1)
+        {
+            var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "NotifyYou.db");
+
+            var db = new SQLiteConnection(databasePath);
+            db.Delete(channelId, db.GetMapping<StoredChannel>());
+            if(thumbnailID != -1)
+            {
+                db.Delete(thumbnailID, db.GetMapping<Thumbnails>());
+            }
+        }
+
+        private void DeleteSetting(String settingId)
+        {
+            var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "NotifyYou.db");
+
+            var db = new SQLiteConnection(databasePath);
+            db.Delete(settingId, db.GetMapping<NotificationSetting>());
         }
 
         #endregion

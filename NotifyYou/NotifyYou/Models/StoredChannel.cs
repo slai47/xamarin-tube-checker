@@ -1,5 +1,6 @@
 ﻿using System;
 using NotifyYou.Models.Channel;
+using SQLite;
 
 namespace NotifyYou.Models
 {
@@ -7,7 +8,6 @@ namespace NotifyYou.Models
     {
         public StoredChannel()
         {
-
         }
 
         public StoredChannel(YoutubeChannel channel)
@@ -18,6 +18,7 @@ namespace NotifyYou.Models
             ImageUri = channel.Snippet.Thumbnails;
         }
 
+        [PrimaryKey]
         public string Id { get; set; }
         public string ChannelId { get; set; }
         public string Name { get; set; }

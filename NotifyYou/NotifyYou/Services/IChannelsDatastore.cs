@@ -15,9 +15,6 @@ namespace NotifyYou.Services
         NotificationSetting GetSetting(string id);
         bool UpdateNotificationSetting(string id, NotificationSetting setting);
 
-        Task<bool> Save();
         Task<bool> Init();
-        Task<bool> SaveDb();
-        Task<bool> InitDb();
     }
 }

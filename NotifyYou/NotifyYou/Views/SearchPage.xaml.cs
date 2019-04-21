@@ -17,6 +17,7 @@ namespace NotifyYou.Views
 
         public SearchPage()
         {
+            NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
 
             BindingContext = this.searchViewModel = new SearchViewModel();
