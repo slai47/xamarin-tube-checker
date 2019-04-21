@@ -48,10 +48,10 @@
                                         Grid.Column="0"
                                         Grid.ColumnSpan="2"
                                         x:Name="enabled"
-                                            IsEnabled="true"
-                                            VerticalOptions="Center"
-                                            HorizontalOptions="End"
-                                            IsToggled="{Binding IsActive}"
+                                        IsEnabled="true"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="End"
+                                        IsToggled="{Binding IsActive}"
                                             />
                                 </Grid>
                             </StackLayout>

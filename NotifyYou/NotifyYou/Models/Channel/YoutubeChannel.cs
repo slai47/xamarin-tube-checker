@@ -1,7 +1,9 @@
 ﻿using System;
+using System.ComponentModel;
+
 namespace NotifyYou.Models.Channel
 {
-    public class YoutubeChannel
+    public class YoutubeChannel : INotifyPropertyChanged
     {
         public ChannelId Id { get; set; }
         public ChannelSnippet Snippet { get; set; }
@@ -22,7 +24,16 @@ namespace NotifyYou.Models.Channel
                 return Id.Id;
             }
         }
-        public bool IsActive { get; set; }
+        public bool _isActive;
+        public bool IsActive { get
+            {
+                return _isActive;
+            } set
+            {
+                _isActive = value;
+                OnPropertyChanged(nameof(IsActive));
+            }
+         }
 
         public string ImageLink
         {
@@ -48,6 +59,13 @@ namespace NotifyYou.Models.Channel
                 }
                 return imageUrl;
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

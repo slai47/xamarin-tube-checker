@@ -43,7 +43,7 @@ namespace NotifyYou.Views
             YoutubeChannel item = (YoutubeChannel)e.Item;
             bool isActive = App.channelsDatastore.GetAllChannels().Any(channel => channel.Id == item.ChannelId);
             item.IsActive = !isActive;
-            if (isActive)
+            if (!isActive)
                 App.channelsDatastore.AddUpdate(new Models.StoredChannel(item));
             else
                 App.channelsDatastore.Delete(item.ChannelId);
