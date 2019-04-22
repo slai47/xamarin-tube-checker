@@ -59,7 +59,7 @@ namespace NotifyYou.ViewModels
                     var call = await api.GetChannels(search);
                     Device.BeginInvokeOnMainThread(() =>
                     {
-                        var current = App.channelsDatastore.GetAllChannels();
+                        var current = App.ChannelsDatastore.GetAllChannels();
                         foreach (var item in call.items)
                         {
                             item.IsActive = current.Any(obj => obj.ChannelId == item.ChannelId);

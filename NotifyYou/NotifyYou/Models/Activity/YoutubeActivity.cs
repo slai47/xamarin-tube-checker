@@ -1,11 +1,14 @@
 ﻿using System;
+using SQLite;
+
 namespace NotifyYou.Models.Activity
 {
     public class YoutubeActivity
     {
-        public string kind { get; set; }
-        public string id { get; set; }
-        public YoutubeSnippet snippet { get; set; }
+        [PrimaryKey]
+        public string Id { get; set; }
+        public string Kind { get; set; }
+        public YoutubeSnippet Snippet { get; set; }
         
     }
 }

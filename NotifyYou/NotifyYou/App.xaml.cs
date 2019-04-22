@@ -9,7 +9,7 @@ namespace NotifyYou
 {
     public partial class App : Application
     {
-        public static IChannelsDataStore channelsDatastore;
+        public static IChannelsDataStore ChannelsDatastore;
 
         public App()
         {
@@ -22,8 +22,8 @@ namespace NotifyYou
         protected override void OnStart()
         {
             // Handle when your app starts
-            channelsDatastore = new YoutubeChannelsDataStore(false);
-            channelsDatastore.Init();
+            ChannelsDatastore = new YoutubeChannelsDataStore(false);
+            ChannelsDatastore.Init();
         }
 
         protected override void OnSleep()

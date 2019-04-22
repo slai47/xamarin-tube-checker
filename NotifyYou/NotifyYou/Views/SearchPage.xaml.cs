@@ -42,12 +42,12 @@ namespace NotifyYou.Views
         void Handle_ItemTapped(object sender, Xamarin.Forms.ItemTappedEventArgs e)
         {
             YoutubeChannel item = (YoutubeChannel)e.Item;
-            bool isActive = App.channelsDatastore.GetAllChannels().Any(channel => channel.Id == item.ChannelId);
+            bool isActive = App.ChannelsDatastore.GetAllChannels().Any(channel => channel.Id == item.ChannelId);
             item.IsActive = !isActive;
             if (!isActive)
-                App.channelsDatastore.AddUpdate(new Models.StoredChannel(item));
+                App.ChannelsDatastore.AddUpdate(new Models.StoredChannel(item));
             else
-                App.channelsDatastore.Delete(item.ChannelId);
+                App.ChannelsDatastore.Delete(item.ChannelId);
         }
     }
 }
