@@ -29,6 +29,7 @@ namespace NotifyYou.ViewModels
                 StoredChannel channel = Channels.First(c => c.Id == activity.ChannelId);
                 YoutubeActivity latest = activity.Result.items.OrderBy(act => act.Snippet.publishedAt).First();
                 channel.LastVideoId = latest.Id;
+                channel.LastVideoImageLink = latest.ImageLink;
                 channel.Activity = latest;
                 App.ChannelsDatastore.AddUpdate(channel);
             });
@@ -44,7 +45,7 @@ namespace NotifyYou.ViewModels
                     Task.Run(() => {
                         Task<YoutubeCall<YoutubeActivity>> result = Task.Run(() => api.GetChannelActivity(channel.ChannelId));
                         MessagingCenter.Send(vm, EVENT_ACTIVITY, new ChannelActivityEvent(channel.ChannelId, result.Result));
-                    };
+                    });
             }
         }
 

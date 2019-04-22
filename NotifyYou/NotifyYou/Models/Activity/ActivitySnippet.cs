@@ -1,14 +1,14 @@
 ﻿using System;
 namespace NotifyYou.Models.Activity
 {
-    public class YoutubeSnippet
+    public class ActivitySnippet
     {
-        public DateTime publishedAt { get; set; }
-        public string title { get; set; }
-        public string description { get; set; }
-        public string channelTitle { get; set; }
-        public string type { get; set; }
-        public string groupId { get; set; }
-        public Thumbnails thumbnails { get; set; }
+        public DateTime PublishedAt { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string ChannelTitle { get; set; }
+        public string Type { get; set; }
+        public string GroupId { get; set; }
+        public Thumbnails Thumbnails { get; set; }
     }
 }

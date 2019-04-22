@@ -27,6 +27,7 @@ namespace NotifyYou.Models
         public string Link { get; set; }
         public Thumbnails ImageUri { get; set; }
         public string LastVideoId { get; set; }
+        public string LastVideoImageLink { get; set; }
 
         [Ignore]
         public YoutubeActivity _activity{get; set;}
