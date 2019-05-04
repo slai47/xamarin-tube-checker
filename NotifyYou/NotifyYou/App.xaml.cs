@@ -14,16 +14,20 @@ namespace NotifyYou
         public App()
         {
             InitializeComponent();
-
-
-            MainPage = new MainPage();
+            ChannelsDatastore = new YoutubeChannelsDataStore(false);
+            ChannelsDatastore.Init();
+            if(ChannelsDatastore.GetAllChannels().Count > 0)
+            {
+                MainPage = new MainTabbedPage();
+            } else
+            {
+                MainPage = new StartTabbedPage();
+            }
         }
 
         protected override void OnStart()
         {
             // Handle when your app starts
-            ChannelsDatastore = new YoutubeChannelsDataStore(false);
-            ChannelsDatastore.Init();
         }
 
         protected override void OnSleep()

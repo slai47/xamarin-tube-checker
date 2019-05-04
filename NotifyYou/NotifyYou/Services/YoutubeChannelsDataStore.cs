@@ -31,13 +31,13 @@ namespace NotifyYou.Services
 
         public void AddUpdate(StoredChannel item, NotificationSetting setting = null)
         {
-            bool exists = channels.Exists(channel => channel.Id == item.Id);
+            bool exists = channels.Exists(channel => channel.ChannelId == item.ChannelId);
             if (!exists)
             {
                 channels.Add(item);
                 if(setting == null)
                 {
-                    setting = new NotificationSetting(item.Id);
+                    setting = new NotificationSetting(item.ChannelId);
                     Save(setting);
                 }
                 settings.Add(setting);
@@ -45,12 +45,12 @@ namespace NotifyYou.Services
             }
             else
             {
-                int index = FindIndexOfChannelId(item.Id);
+                int index = FindIndexOfChannelId(item.ChannelId);
                 channels[index] = item;
                 Update(item);
                 if(setting != null)
                 {
-                    int settingIndex = FindIndexOfSettingId(item.Id);
+                    int settingIndex = FindIndexOfSettingId(item.ChannelId);
                     settings[settingIndex] = setting;
                     Update(setting);
                 }
@@ -58,14 +58,14 @@ namespace NotifyYou.Services
 
         }
 
-        private bool Delete(string id)
+        public bool Delete(string id)
         {
-            StoredChannel channel = channels.First(c => c.Id == id);
+            StoredChannel channel = channels.First(c => c.ChannelId == id);
             channels.Remove(channel);
             NotificationSetting setting = settings.First(c => channel.ChannelId == id);
             settings.Remove(setting);
 
-            DeleteChannel(channel.Id, channel.ImageUri.Id);
+            DeleteChannel(channel.ChannelId);
             DeleteSetting(channel.ChannelId);
 
             return true;
@@ -73,7 +73,7 @@ namespace NotifyYou.Services
 
         public StoredChannel Get(string id)
         {
-            StoredChannel channel = channels.Find(chan => chan.Id == id);
+            StoredChannel channel = channels.Find(chan => chan.ChannelId == id);
             return channel;
         }
 
@@ -107,7 +107,6 @@ namespace NotifyYou.Services
 
             var db = new SQLiteConnection(databasePath);
             db.CreateTable<StoredChannel>();
-            db.CreateTable<Thumbnails>();
             db.CreateTable<NotificationSetting>();
 
             channels = db.Table<StoredChannel>().ToList();
@@ -122,7 +121,6 @@ namespace NotifyYou.Services
 
             var db = new SQLiteAsyncConnection(databasePath);
             db.InsertAsync(channel);
-            db.InsertAsync(channel.ImageUri);
         }
 
         private void Update(StoredChannel channel)
@@ -131,7 +129,6 @@ namespace NotifyYou.Services
 
             var db = new SQLiteAsyncConnection(databasePath);
             db.UpdateAsync(channel);
-            db.UpdateAsync(channel.ImageUri);
         }
 
         private void Save(NotificationSetting setting)
@@ -150,16 +147,13 @@ namespace NotifyYou.Services
             db.UpdateAsync(setting);
         }
 
-        private void DeleteChannel(String channelId, int thumbnailID = -1)
+        private void DeleteChannel(String channelId)
         {
             var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "NotifyYou.db");
 
             var db = new SQLiteConnection(databasePath);
             db.Delete(channelId, db.GetMapping<StoredChannel>());
-            if(thumbnailID != -1)
-            {
-                db.Delete(thumbnailID, db.GetMapping<Thumbnails>());
-            }
+
         }
 
         private void DeleteSetting(String settingId)
@@ -176,7 +170,7 @@ namespace NotifyYou.Services
 
         private int FindIndexOfChannelId(string id)
         {
-            return channels.FindIndex(channel => channel.Id == id);
+            return channels.FindIndex(channel => channel.ChannelId == id);
         }
 
         private int FindIndexOfSettingId(string id)
@@ -192,27 +186,28 @@ namespace NotifyYou.Services
         {
             var mockItems = new List<StoredChannel>
             {
-                new StoredChannel { Id = Guid.NewGuid().ToString(), Name = "Phillip Defranco", Link="" },
-                new StoredChannel { Id = Guid.NewGuid().ToString(), Name = "MCGamerz", Link="" },
-                new StoredChannel { Id = Guid.NewGuid().ToString(), Name = "Brozime", Link="" },
-                new StoredChannel { Id = Guid.NewGuid().ToString(), Name = "NPR", Link="" },
-                new StoredChannel { Id = Guid.NewGuid().ToString(), Name = "Quiet Shallow", Link="" },
-                new StoredChannel { Id = Guid.NewGuid().ToString(), Name = "Screen Junkies", Link="" },
+                new StoredChannel { ChannelId = Guid.NewGuid().ToString(), Name = "Phillip Defranco", Link="" },
+                new StoredChannel { ChannelId = Guid.NewGuid().ToString(), Name = "MCGamerz", Link="" },
+                new StoredChannel { ChannelId = Guid.NewGuid().ToString(), Name = "Brozime", Link="" },
+                new StoredChannel { ChannelId = Guid.NewGuid().ToString(), Name = "NPR", Link="" },
+                new StoredChannel { ChannelId = Guid.NewGuid().ToString(), Name = "Quiet Shallow", Link="" },
+                new StoredChannel { ChannelId = Guid.NewGuid().ToString(), Name = "Screen Junkies", Link="" },
             };
 
             var mockSettings = new List<NotificationSetting>
             {
-                new NotificationSetting(mockItems[0].Id) { Active = false, Sound = false },
-                new NotificationSetting(mockItems[1].Id) { Active = false, Sound = false },
-                new NotificationSetting(mockItems[2].Id) { Active = false, Sound = false },
-                new NotificationSetting(mockItems[3].Id) { Active = false, Sound = false },
-                new NotificationSetting(mockItems[4].Id) { Active = false, Sound = false },
-                new NotificationSetting(mockItems[5].Id) { Active = false, Sound = false }
+                new NotificationSetting(mockItems[0].ChannelId) { Active = false, Sound = false },
+                new NotificationSetting(mockItems[1].ChannelId) { Active = false, Sound = false },
+                new NotificationSetting(mockItems[2].ChannelId) { Active = false, Sound = false },
+                new NotificationSetting(mockItems[3].ChannelId) { Active = false, Sound = false },
+                new NotificationSetting(mockItems[4].ChannelId) { Active = false, Sound = false },
+                new NotificationSetting(mockItems[5].ChannelId) { Active = false, Sound = false }
             };
 
             channels.AddRange(mockItems);
             settings.AddRange(mockSettings);
         }
+
 
         #endregion
     }

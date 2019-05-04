@@ -1,24 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="NotifyYou.Views.ChannelsPage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="NotifyYou.Views.ChannelsPage">
     <ContentPage.Content>
-        <ListView ItemsSource="{Binding Channels}"
+        <ListView 
+                x:Name="ChannelsListView" 
+                ItemsSource="{Binding Channels}"
                   HasUnevenRows="false"
                   SelectionMode="None"
-                  VerticalOptions="FillAndExpand"
+                  VerticalOptions="StartAndExpand"
                   HorizontalOptions="FillAndExpand"
+                  CachingStrategy="RecycleElement" 
+                  ItemTapped="Handle_ItemTapped"
                   >
             <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Padding="10">
-                                <Label Text="{Binding ChannelId}" 
+                            <StackLayout Padding="10"
+                                     Orientation="Vertical"
+                                         >
+                                <Label Text="{Binding Name}" 
                                        LineBreakMode="NoWrap" 
                                        Style="{DynamicResource ListItemTextStyle}" 
                                        FontSize="16" />
+                            
+                                <Image Aspect="AspectFit"
+                                       Source="{Binding ImageUrl}"
+                                       HeightRequest="150"
+                                       HorizontalOptions="CenterAndExpand"
+                                       />
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
-                </ListView.ItemTemplate>
+            </ListView.ItemTemplate>
         </ListView>
     </ContentPage.Content>
 </ContentPage>

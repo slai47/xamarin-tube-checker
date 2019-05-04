@@ -10,6 +10,5 @@ namespace NotifyYou.Models.Channel
         public string Description { get; set; }
         public Thumbnails Thumbnails { get; set; }
         public string ChannelTitle { get; set; }
-        public ChannelId Id {get;set;}
     }
 }

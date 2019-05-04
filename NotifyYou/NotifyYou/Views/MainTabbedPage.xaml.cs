@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -6,13 +10,12 @@ using Xamarin.Forms.Xaml;
 namespace NotifyYou.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MainPage : TabbedPage
+    public partial class MainTabbedPage : TabbedPage
     {
-        public MainPage()
+        public MainTabbedPage()
         {
             NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
-            // Children.Insert(0, FeedPage.cs) Use this to add a child if we need it. 
         }
     }
 }

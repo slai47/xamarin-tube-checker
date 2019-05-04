@@ -3,6 +3,7 @@ using SQLite;
 
 namespace NotifyYou.Models
 {
+    [Table("notification_settings")]
     public class NotificationSetting
     {
         [PrimaryKey]

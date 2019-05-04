@@ -1,6 +1,9 @@
 ﻿using System;
+using SQLite;
+
 namespace NotifyYou.Models
 {
+    [Table("imageinfo")]
     public class ImageInfo
     {
         public string url { get; set; }

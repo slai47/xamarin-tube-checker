@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NotifyYou.Models.Channel;
+using NotifyYou.Models.Events;
 using NotifyYou.Services;
 using NotifyYou.ViewModels;
 using Xamarin.Forms;
@@ -42,12 +43,15 @@ namespace NotifyYou.Views
         void Handle_ItemTapped(object sender, Xamarin.Forms.ItemTappedEventArgs e)
         {
             YoutubeChannel item = (YoutubeChannel)e.Item;
-            bool isActive = App.ChannelsDatastore.GetAllChannels().Any(channel => channel.Id == item.ChannelId);
+            bool isActive = App.ChannelsDatastore.GetAllChannels().Any(channel => channel.ChannelId == item.ChannelId);
             item.IsActive = !isActive;
-            if (!isActive)
+            if (!isActive) 
                 App.ChannelsDatastore.AddUpdate(new Models.StoredChannel(item));
             else
                 App.ChannelsDatastore.Delete(item.ChannelId);
+
+            ChannelsAddRemoveEvent addRemove = new ChannelsAddRemoveEvent(item.IsActive, item.ChannelId);
+            MessagingCenter.Send(addRemove, ChannelsViewModel.EVENT_ADDREMOVE);
         }
     }
 }

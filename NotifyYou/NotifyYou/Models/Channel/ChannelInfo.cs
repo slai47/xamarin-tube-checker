@@ -1,9 +1,9 @@
 ﻿using System;
 namespace NotifyYou.Models.Channel
 {
-    public class ChannelId
+    public class ChannelInfo
     {
         public string Kind { get; set; }
-        public string Id { get; set; }
+        public string ChannelId { get; set; }
     }
 }

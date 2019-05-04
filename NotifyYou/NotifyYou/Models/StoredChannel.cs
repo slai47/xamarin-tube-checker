@@ -6,6 +6,7 @@ using SQLite;
 
 namespace NotifyYou.Models
 {
+    [Table("storedchannel")]
     public class StoredChannel : INotifyPropertyChanged
     {
         public StoredChannel()
@@ -17,17 +18,48 @@ namespace NotifyYou.Models
             ChannelId = channel.ChannelId;
             Name = channel.ChannelTitle;
             Link = "https://www.youtube.com/channel/" + ChannelId;
-            ImageUri = channel.Snippet.Thumbnails;
+            BestImageUrl = grabUrl(channel.Snippet.Thumbnails.maxres);
+            HighImageUrl = grabUrl(channel.Snippet.Thumbnails.high);
+            MediumImageUrl = grabUrl(channel.Snippet.Thumbnails.medium);
+            StandardImageUrl = grabUrl(channel.Snippet.Thumbnails.standard);
         }
 
         [PrimaryKey]
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string ChannelId { get; set; }
         public string Name { get; set; }
         public string Link { get; set; }
-        public Thumbnails ImageUri { get; set; }
+        public string BestImageUrl { get; set; }
+        public string StandardImageUrl { get; set; }
+        public string HighImageUrl { get; set; }
+        public string MediumImageUrl { get; set; }
         public string LastVideoId { get; set; }
         public string LastVideoImageLink { get; set; }
+
+        [Ignore]
+        public string ImageUrl
+        {
+            get
+            {
+                String url = LastVideoImageLink;
+                if(url == null || (!string.IsNullOrEmpty(url)))
+                {
+                    if(!string.IsNullOrEmpty(BestImageUrl))
+                    {
+                        url = BestImageUrl;
+                    } else if(!string.IsNullOrEmpty(HighImageUrl))
+                    {
+                        url = HighImageUrl;
+                    } else if (!string.IsNullOrEmpty(StandardImageUrl)) {
+                        url = StandardImageUrl;
+                    } else if(!string.IsNullOrEmpty(MediumImageUrl))
+                    {
+                        url = MediumImageUrl;
+                    }
+                }
+                return url;
+            }
+        }
 
         [Ignore]
         public YoutubeActivity _activity{get; set;}
@@ -44,5 +76,14 @@ namespace NotifyYou.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        private String grabUrl(ImageInfo info)
+        {
+            string ret = "";
+            if(info != null)
+                ret = info.url;
+            return ret;
+        }
+
     }
 }

@@ -5,7 +5,7 @@ namespace NotifyYou.Models.Channel
 {
     public class YoutubeChannel : INotifyPropertyChanged
     {
-        public ChannelId Id { get; set; }
+        public ChannelInfo Id { get; set; }
         public ChannelSnippet Snippet { get; set; }
 
 
@@ -21,7 +21,7 @@ namespace NotifyYou.Models.Channel
         {
             get
             {
-                return Id.Id;
+                return Id.ChannelId;
             }
         }
         public bool _isActive;

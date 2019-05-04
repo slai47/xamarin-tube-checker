@@ -6,12 +6,14 @@ using NotifyYou.Models;
 using NotifyYou.Models.Activity;
 using Xamarin.Forms;
 using System.Linq;
+using NotifyYou.Models.Events;
 
 namespace NotifyYou.ViewModels
 {
     public class ChannelsViewModel : BaseViewModel
     {
         public const string EVENT_ACTIVITY = "Activity";
+        public const string EVENT_ADDREMOVE = "addRemove";
 
         public ObservableCollection<StoredChannel> Channels;
 
@@ -26,12 +28,31 @@ namespace NotifyYou.ViewModels
         {
             MessagingCenter.Subscribe<ChannelActivityEvent>(this, EVENT_ACTIVITY, (activity) =>
             {
-                StoredChannel channel = Channels.First(c => c.Id == activity.ChannelId);
-                YoutubeActivity latest = activity.Result.items.OrderBy(act => act.Snippet.publishedAt).First();
+                StoredChannel channel = Channels.First(c => c.ChannelId == activity.ChannelId);
+                YoutubeActivity latest = activity.Result.items.OrderBy(act => act.Snippet.PublishedAt).First();
                 channel.LastVideoId = latest.Id;
                 channel.LastVideoImageLink = latest.ImageLink;
                 channel.Activity = latest;
                 App.ChannelsDatastore.AddUpdate(channel);
+            });
+            MessagingCenter.Subscribe<ChannelsAddRemoveEvent>(this, EVENT_ADDREMOVE, (addRemoveEvent) =>
+            {
+                string channelId = addRemoveEvent.Id;
+                if (addRemoveEvent.Add)
+                {
+                    StoredChannel channel = App.ChannelsDatastore.Get(channelId);
+                    Channels.Add(channel);
+                } else
+                {
+                    try
+                    {
+                        var channel = Channels.First(c => c.ChannelId == channelId);
+                        Channels.Remove(channel);
+                    } 
+                    catch (Exception)
+                    {
+                    }
+                }
             });
         }
 

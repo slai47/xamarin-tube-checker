@@ -17,11 +17,13 @@
   <ItemGroup>
     <Compile Remove="Models\Notificaiton.cs" />
     <Compile Remove="Services\MockChannelsDataStore.cs" />
+    <Compile Remove="Services\IDataStore.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="API\" />
     <Folder Include="Models\Activity\" />
     <Folder Include="Models\Channel\" />
     <Folder Include="Models\Base\" />
+    <Folder Include="Models\Events\" />
   </ItemGroup>
 </Project>
