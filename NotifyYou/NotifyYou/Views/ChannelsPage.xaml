@@ -3,36 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              x:Class="NotifyYou.Views.ChannelsPage">
     <ContentPage.Content>
-        <ListView 
-                x:Name="ChannelsListView" 
-                ItemsSource="{Binding Channels}"
-                  HasUnevenRows="false"
-                  SelectionMode="None"
-                  VerticalOptions="StartAndExpand"
-                  HorizontalOptions="FillAndExpand"
-                  CachingStrategy="RecycleElement" 
-                  ItemTapped="Handle_ItemTapped"
-                  >
-            <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Padding="10"
-                                     Orientation="Vertical"
-                                         >
-                                <Label Text="{Binding Name}" 
-                                       LineBreakMode="NoWrap" 
-                                       Style="{DynamicResource ListItemTextStyle}" 
-                                       FontSize="16" />
-                            
-                                <Image Aspect="AspectFit"
-                                       Source="{Binding ImageUrl}"
-                                       HeightRequest="150"
-                                       HorizontalOptions="CenterAndExpand"
-                                       />
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+       <StackLayout>
+            <ListView x:Name="ChannelsListView" 
+                      VerticalOptions="FillAndExpand" 
+                      HasUnevenRows="true" 
+                      CachingStrategy="RecycleElement" 
+                      ItemTapped="Handle_ItemTapped"
+                      SelectionMode="None"
+                        >
+                <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Padding="10"
+                                         Orientation="Vertical"
+                                             >
+                                    <Label Text="{Binding Name}" 
+                                           LineBreakMode="NoWrap" 
+                                           Style="{DynamicResource ListItemTextStyle}" 
+                                           FontSize="16" />
+                                
+                                    <Image Aspect="AspectFit"
+                                           Source="{Binding ImageUrl}"
+                                           HeightRequest="150"
+                                           HorizontalOptions="CenterAndExpand"
+                                           />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

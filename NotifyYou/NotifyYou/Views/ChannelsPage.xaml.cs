@@ -12,6 +12,7 @@ namespace NotifyYou.Views
 
         public ChannelsPage()
         {
+            NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
 
             this.BindingContext = viewModel = new ChannelsViewModel();

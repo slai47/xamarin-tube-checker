@@ -20,8 +20,8 @@ namespace NotifyYou.ViewModels
         public ChannelsViewModel()
         {
             InitChannels();
-            CallForActivity(false);
             SetupSubscribes();
+            CallForActivity(false);
         }
 
         private void SetupSubscribes()
@@ -34,6 +34,7 @@ namespace NotifyYou.ViewModels
                 channel.LastVideoImageLink = latest.ImageLink;
                 channel.Activity = latest;
                 App.ChannelsDatastore.AddUpdate(channel);
+                
             });
             MessagingCenter.Subscribe<ChannelsAddRemoveEvent>(this, EVENT_ADDREMOVE, (addRemoveEvent) =>
             {
@@ -65,9 +66,22 @@ namespace NotifyYou.ViewModels
                 if(channel.Activity == null || force)
                     Task.Run(() => {
                         Task<YoutubeCall<YoutubeActivity>> result = Task.Run(() => api.GetChannelActivity(channel.ChannelId));
-                        MessagingCenter.Send(vm, EVENT_ACTIVITY, new ChannelActivityEvent(channel.ChannelId, result.Result));
+                        var webResult = result.Result;
+                        onActivityReceive(new ChannelActivityEvent(channel.ChannelId, webResult));
                     });
             }
+        }
+
+        private void onActivityReceive(ChannelActivityEvent activityEvent)
+        {
+            StoredChannel channel = Channels.First(c => c.ChannelId == activityEvent.ChannelId);
+            YoutubeActivity latest = activityEvent.Result.items.OrderBy(act => act.Snippet.PublishedAt).First();
+            channel.LastVideoId = latest.Id;
+            channel.LastVideoImageLink = latest.ImageLink;
+            channel.Activity = latest;
+            App.ChannelsDatastore.AddUpdate(channel);
+            int index = Channels.IndexOf(channel);
+            Channels[index] = channel;
         }
 
         private void InitChannels()
