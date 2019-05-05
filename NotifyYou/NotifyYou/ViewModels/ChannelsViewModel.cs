@@ -74,10 +74,9 @@ namespace NotifyYou.ViewModels
         {
             IYoutube api = new YoutubeApi();
             ChannelsViewModel vm = this;
-            if (force || Channels.Count == 0)
-                IsProgressVisible = true;
-            else if (force)
+            if (Channels.Count == 0 || force)
             {
+                IsProgressVisible = true;
                 Channels.Clear();
             }
             var channels = App.ChannelsDatastore.GetAllChannels();

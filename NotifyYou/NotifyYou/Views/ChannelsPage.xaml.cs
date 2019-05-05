@@ -24,6 +24,7 @@ namespace NotifyYou.Views
             ChannelsListView.RefreshCommand = new Command(() =>
             {
                 viewModel.CallForActivity(true);
+                ChannelsListView.IsRefreshing = false;
             });
         }
 

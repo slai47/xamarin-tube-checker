@@ -11,6 +11,7 @@
                       ItemTapped="Handle_ItemTapped"
                       SelectionMode="None"
                       IsPullToRefreshEnabled="true"
+                      IsRefreshing="false"
                         >
                 <ListView.ItemTemplate>
                         <DataTemplate>
