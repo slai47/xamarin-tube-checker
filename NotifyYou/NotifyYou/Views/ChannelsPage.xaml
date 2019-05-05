@@ -3,13 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              x:Class="NotifyYou.Views.ChannelsPage">
     <ContentPage.Content>
-       <StackLayout>
+       <RelativeLayout>
             <ListView x:Name="ChannelsListView" 
                       VerticalOptions="FillAndExpand" 
                       HasUnevenRows="true" 
                       CachingStrategy="RecycleElement" 
                       ItemTapped="Handle_ItemTapped"
                       SelectionMode="None"
+                      IsPullToRefreshEnabled="true"
                         >
                 <ListView.ItemTemplate>
                         <DataTemplate>
@@ -17,21 +18,50 @@
                                 <StackLayout Padding="10"
                                          Orientation="Vertical"
                                              >
-                                    <Label Text="{Binding Name}" 
-                                           LineBreakMode="NoWrap" 
+                                    <Label Text="{Binding LastVideoTitle}" 
                                            Style="{DynamicResource ListItemTextStyle}" 
-                                           FontSize="16" />
+                                           FontSize="14" />
                                 
                                     <Image Aspect="AspectFit"
                                            Source="{Binding ImageUrl}"
                                            HeightRequest="150"
                                            HorizontalOptions="CenterAndExpand"
                                            />
+                                
+                                    <StackLayout
+                                        HorizontalOptions="FillAndExpand"
+                                        Orientation="Horizontal"
+                                    >
+                                        <Label Text="{Binding Name}"
+                                               LineBreakMode="NoWrap" 
+                                               HorizontalOptions="Start"
+                                               Style="{DynamicResource ListItemTextStyle}" 
+                                               FontSize="10" />
+                                    
+                                        <Label Text="{Binding LastVideoTime}" 
+                                               HorizontalOptions="EndAndExpand"
+                                               LineBreakMode="NoWrap" 
+                                               Style="{DynamicResource ListItemTextStyle}" 
+                                               FontSize="10" />
+                                    </StackLayout>
                                 </StackLayout>
                             </ViewCell>
                         </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-        </StackLayout>
+            
+            <ActivityIndicator 
+                   RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
+                            Property=Height,
+                            Factor=0.33}"
+                   RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
+                            Property=Height,
+                            Factor=0.33}"
+                    x:Name="ChannelsProgress"
+                    IsVisible="false"
+                    IsRunning="true"
+                    Color="#320b86"
+                    />
+        </RelativeLayout>
     </ContentPage.Content>
 </ContentPage>

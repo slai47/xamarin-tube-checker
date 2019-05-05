@@ -9,6 +9,7 @@ namespace NotifyYou.Views
     {
         public SettingsPage()
         {
+            NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
         }
     }

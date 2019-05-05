@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              x:Class="NotifyYou.Views.SearchPage">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout Padding="10">
             <ListView x:Name="SearchListView" 
                       ItemsSource="{Binding SearchList}" 
                       VerticalOptions="FillAndExpand" 
@@ -65,25 +65,36 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <Entry 
-                    Grid.ColumnSpan="3"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="4"
                     VerticalOptions="FillAndExpand"
+                    HorizontalOptions="Fill"
                     x:Name="SearchText"
                    Keyboard="Text"
                        />
-                <Button 
+                   <RelativeLayout
                     Grid.Column="4"
                     Grid.ColumnSpan="2"
-                    x:Name="SearchButton"
-                    Text="Search"
-                    Clicked="Search_Clicked"
-                />
-                <ActivityIndicator 
-                    Grid.Column="4"
-                    Grid.ColumnSpan="1"
-                    x:Name="SearchProgress"
-                    IsVisible="false"
-                    IsRunning="true"
-                    />
+                        >
+                        <Button 
+                            x:Name="SearchButton"
+                            Text="Search"
+                            Clicked="Search_Clicked"
+                            BackgroundColor="#320b86"
+                            WidthRequest="80"
+                            HeightRequest="40"
+                            TextColor="White"
+                        />
+                        <ActivityIndicator 
+                            x:Name="SearchProgress"
+                            IsVisible="false"
+                            IsRunning="true"
+                            Color="#320b86"
+                            RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
+                                Property=Height,
+                                Factor=0.33}"
+                            />
+                </RelativeLayout>
             </Grid>
         </StackLayout>
     </ContentPage.Content>

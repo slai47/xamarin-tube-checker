@@ -18,6 +18,13 @@ namespace NotifyYou.Views
             this.BindingContext = viewModel = new ChannelsViewModel();
 
             ChannelsListView.ItemsSource = viewModel.Channels;
+
+            ChannelsProgress.SetBinding(IsVisibleProperty, nameof(viewModel.IsProgressVisible));
+
+            ChannelsListView.RefreshCommand = new Command(() =>
+            {
+                viewModel.CallForActivity(true);
+            });
         }
 
         void Handle_ItemTapped(object sender, Xamarin.Forms.ItemTappedEventArgs e)
@@ -26,7 +33,7 @@ namespace NotifyYou.Views
             string url = "";
             if (!string.IsNullOrEmpty(item.LastVideoId))
             {
-                url = "http://youtube.com/" + item.LastVideoId;
+                url = "http://youtube.com/watch?v=" + item.LastVideoId;
             } else
             {
                 url = "http://youtube.com/channel/" + item.ChannelId;

@@ -35,6 +35,8 @@ namespace NotifyYou.Models
         public string MediumImageUrl { get; set; }
         public string LastVideoId { get; set; }
         public string LastVideoImageLink { get; set; }
+        public string LastVideoTitle { get; set; }
+        public string LastVideoTime { get; set; }
 
         [Ignore]
         public string ImageUrl
@@ -42,7 +44,7 @@ namespace NotifyYou.Models
             get
             {
                 String url = LastVideoImageLink;
-                if(url == null || (!string.IsNullOrEmpty(url)))
+                if(url == null || (string.IsNullOrEmpty(url)))
                 {
                     if(!string.IsNullOrEmpty(BestImageUrl))
                     {

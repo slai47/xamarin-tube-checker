@@ -5,36 +5,21 @@
             x:Class="NotifyYou.Views.StartTabbedPage"
             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
             android:TabbedPage.ToolbarPlacement="Bottom"
-            BarBackgroundColor="#2196F3"
+            BarBackgroundColor="#320b86"
             BarTextColor="White"
             NavigationPage.HasNavigationBar="False">
     <TabbedPage.Children>
-        <NavigationPage Title="Search">
-            <NavigationPage.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource">
-                    <On Platform="iOS" Value="tab_feed.png" />
-                </OnPlatform>
-            </NavigationPage.Icon>
+        <NavigationPage Title="Search" Icon="ic_search.png">
             <x:Arguments>
                 <views:SearchPage />
             </x:Arguments>
         </NavigationPage>
-        <NavigationPage Title="Channels">
-            <NavigationPage.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource">
-                    <On Platform="iOS" Value="tab_feed.png" />
-                </OnPlatform>
-            </NavigationPage.Icon>
+        <NavigationPage Title="Channels" Icon="ic_play.png">
             <x:Arguments>
                 <views:ChannelsPage />
             </x:Arguments>
         </NavigationPage>
-        <NavigationPage Title="About">
-            <NavigationPage.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource">
-                    <On Platform="iOS" Value="tab_about.png" />
-                </OnPlatform>
-            </NavigationPage.Icon>
+        <NavigationPage Title="Settings" Icon="ic_settings.png">
             <x:Arguments>
                 <views:SettingsPage />
             </x:Arguments>
