@@ -1,5 +1,22 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="NotifyYou.Views.SettingsPage">
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+            xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
+             x:Class="NotifyYou.Views.SettingsPage">
     <ContentPage.Content>
+        <!-- https://github.com/muak/AiForms.SettingsView -->
+        <sv:SettingsView HasUnevenRows="true" >
+            <sv:Section Title="App Settings">
+                <sv:CheckboxCell
+                    Title="Notification Services" Checked="true"
+                    />
+                
+            </sv:Section>
+            <sv:Section Title="About">
+                <sv:LabelCell Title="Attribution" ValueText="Testing"/>
+                <sv:LabelCell Title="Version" x:Name="verisonInfo"/>
+            </sv:Section>
+            
+        </sv:SettingsView>
     </ContentPage.Content>
 </ContentPage>

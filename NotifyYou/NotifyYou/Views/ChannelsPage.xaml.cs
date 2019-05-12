@@ -19,13 +19,15 @@ namespace NotifyYou.Views
 
             ChannelsListView.ItemsSource = viewModel.Channels;
 
-            ChannelsProgress.SetBinding(IsVisibleProperty, nameof(viewModel.IsProgressVisible));
-
             ChannelsListView.RefreshCommand = new Command(() =>
             {
                 viewModel.CallForAllChannelActivities(true);
                 ChannelsListView.IsRefreshing = false;
             });
+            ChannelsListView.Footer = new BoxView
+            {
+                HeightRequest = 80
+            };
         }
 
         void Handle_ItemTapped(object sender, Xamarin.Forms.ItemTappedEventArgs e)

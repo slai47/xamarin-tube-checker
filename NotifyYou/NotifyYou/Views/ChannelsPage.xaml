@@ -12,6 +12,8 @@
                       SelectionMode="None"
                       IsPullToRefreshEnabled="true"
                       IsRefreshing="false"
+                      RefreshAllowed="true"
+                      RefreshControlColor="{Binding MainColor}"
                         >
                 <ListView.ItemTemplate>
                         <DataTemplate>
@@ -19,6 +21,12 @@
                                 <StackLayout Padding="10"
                                          Orientation="Vertical"
                                              >
+                                    <Image Aspect="AspectFit"
+                                           Source="{Binding ImageUrl}"
+                                           HeightRequest="200"
+                                           HorizontalOptions="CenterAndExpand"
+                                           />
+                                
                                     <Label Text="{Binding LastVideoTitle}" 
                                            Style="{DynamicResource ListItemTextStyle}"
                                            FontSize="14"
@@ -27,39 +35,54 @@
                                             <DataTrigger TargetType="Label"  Binding="{Binding NewVideo}" Value="True">
                                                 <Setter Property="FontAttributes" Value="Bold"/>
                                             </DataTrigger>
+                                            <DataTrigger TargetType="Label"  Binding="{Binding NewVideo}" Value="False">
+                                                    <Setter Property="FontAttributes" Value=""/>
+                                                </DataTrigger>
                                         </Label.Triggers>
                                     </Label>
-                                
-                                    <Image Aspect="AspectFit"
-                                           Source="{Binding ImageUrl}"
-                                           HeightRequest="200"
-                                           HorizontalOptions="CenterAndExpand"
-                                           />
                                 
                                     <StackLayout
                                         HorizontalOptions="FillAndExpand"
                                         Orientation="Horizontal"
-                                    >
+                                        >
                                         <Label Text="{Binding Name}"
                                                LineBreakMode="NoWrap" 
                                                HorizontalOptions="Start"
+                                               HeightRequest="20"
+                                               VerticalTextAlignment="Center"
                                                Style="{DynamicResource ListItemTextStyle}" 
-                                               FontSize="10">
+                                               FontSize="14">
                                             <Label.Triggers>
                                                 <DataTrigger TargetType="Label"  Binding="{Binding NewVideo}" Value="True">
                                                     <Setter Property="FontAttributes" Value="Bold"/>
                                                 </DataTrigger>
+                                                <DataTrigger TargetType="Label"  Binding="{Binding NewVideo}" Value="False">
+                                                    <Setter Property="FontAttributes" Value=""/>
+                                                </DataTrigger>
                                             </Label.Triggers>
                                         </Label>
+                                    
+                                     <ActivityIndicator 
+                                            IsVisible="{Binding Searching}"
+                                            IsRunning="true"
+                                            Color="{StaticResource MainColor}"
+                                            HeightRequest="20"
+                                            WidthRequest="20"
+                                            />
                                     
                                         <Label Text="{Binding LastVideoTime}" 
                                                HorizontalOptions="EndAndExpand"
                                                LineBreakMode="NoWrap" 
+                                               VerticalTextAlignment="Center"
                                                Style="{DynamicResource ListItemTextStyle}" 
+                                               HeightRequest="20"
                                                FontSize="10" >
                                             <Label.Triggers>
                                                 <DataTrigger TargetType="Label"  Binding="{Binding NewVideo}" Value="True">
                                                     <Setter Property="FontAttributes" Value="Bold"/>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Label"  Binding="{Binding NewVideo}" Value="False">
+                                                    <Setter Property="FontAttributes" Value=""/>
                                                 </DataTrigger>
                                             </Label.Triggers>
                                         </Label>
@@ -69,19 +92,6 @@
                         </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            
-            <ActivityIndicator 
-                   RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
-                            Property=Height,
-                            Factor=0.33}"
-                   RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
-                            Property=Height,
-                            Factor=0.33}"
-                    x:Name="ChannelsProgress"
-                    IsVisible="false"
-                    IsRunning="true"
-                    Color="#320b86"
-                    />
         </RelativeLayout>
     </ContentPage.Content>
 </ContentPage>

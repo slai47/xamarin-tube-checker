@@ -1,12 +1,50 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Application xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="NotifyYou.App">
+<?xml version="1.0" encoding="utf-8"?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:sv="clr-namespace:AiForms.Renderers;assembly=SettingsView"
+             x:Class="NotifyYou.App">
     <Application.Resources>
         <ResourceDictionary>
             <!--Global Styles-->
+            <Color x:Key="MainColor">#673ab7</Color>
+            <Color x:Key="SecondaryColor">#320b86</Color>
+            <Color x:Key="AppBackground">#FFFFFF</Color>
             <Color x:Key="NavigationPrimary">#2196F3</Color>
             <Style TargetType="NavigationPage">
                 <Setter Property="BarBackgroundColor" Value="{StaticResource NavigationPrimary}" />
                 <Setter Property="BarTextColor" Value="White" />
+            </Style>
+            
+            <!-- Settings view colors-->
+            <Color x:Key="svAccentColor">#320b86</Color>
+            <Color x:Key="svDisabledColor">#E6DAB9</Color>
+            <Color x:Key="svTitleTextColor">#673ab7</Color>
+            <Color x:Key="svPaleBackColorPrimary">#F2EFE6</Color>
+            <Color x:Key="svPaleBackColorSecondary">#F2EDDA</Color>
+            <Color x:Key="svDeepTextColor">#555555</Color>
+            <Color x:Key="svNormalTextColor">#666666</Color>
+            <Color x:Key="svPaleTextColor">#999999</Color>
+            <x:Double x:Key="svBaseFontSize">12</x:Double>
+            <x:Double x:Key="svBaseFontSize+">14</x:Double>
+            <x:Double x:Key="svBaseFontSize++">17</x:Double>
+            <x:Double x:Key="svBaseFontSize-">11</x:Double>
+            
+            <Style TargetType="sv:SettingsView">
+                <Setter Property="SeparatorColor" Value="{StaticResource svDisabledColor}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource svPaleBackColorPrimary}" />
+                <Setter Property="HeaderBackgroundColor" Value="{StaticResource svPaleBackColorPrimary}" />
+                <Setter Property="CellBackgroundColor" Value="{StaticResource AppBackground}" />
+                <Setter Property="CellTitleColor" Value="{StaticResource svDeepTextColor}" />
+                <Setter Property="CellValueTextColor" Value="{StaticResource svNormalTextColor}" />
+                <Setter Property="CellTitleFontSize" Value="{StaticResource svBaseFontSize++}" />
+                <Setter Property="CellValueTextFontSize" Value="{StaticResource svBaseFontSize}" />
+                <Setter Property="CellDescriptionColor" Value="{StaticResource svNormalTextColor}" />
+                <Setter Property="CellDescriptionFontSize" Value="{StaticResource svBaseFontSize-}" />
+                <Setter Property="CellAccentColor" Value="{StaticResource svAccentColor}" />
+                <Setter Property="SelectedColor" Value="{StaticResource MainColor}" />
+                <Setter Property="HeaderTextColor" Value="{StaticResource svTitleTextColor}" />
+                <Setter Property="FooterFontSize" Value="{StaticResource svBaseFontSize-}" />
+                <Setter Property="FooterTextColor" Value="{StaticResource svPaleTextColor}" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>

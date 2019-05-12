@@ -16,7 +16,8 @@ namespace NotifyYou.API
         const string SEARCH = "search";
         const string CHANNELS = "channels";
         const string ACTIIVTY = "activities";
-        const string PART = "part=snippet%2CcontentDetails";
+        const string PART = "part=snippet";
+        const string PART_CONTENTS = "part=snippet%2CcontentDetails";
         const string API_KEY = "&key=";
 
         HttpClient _client;
@@ -30,7 +31,7 @@ namespace NotifyYou.API
         {
             YoutubeCall<YoutubeActivity> activity = new YoutubeCall<YoutubeActivity>();
 
-            var uri = new Uri(GenerateUrl(ACTIIVTY, "&channelId=" + id ));
+            var uri = new Uri(GenerateUrl(ACTIIVTY, "&channelId=" + id, true));
 
             var response = await _client.GetAsync(uri).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
@@ -51,7 +52,7 @@ namespace NotifyYou.API
         {
             YoutubeCall<YoutubeChannel> activity = new YoutubeCall<YoutubeChannel>();
 
-            var uri = new Uri(GenerateUrl(SEARCH, "&q=" + search + "&type=channel"));
+            var uri = new Uri(GenerateUrl(SEARCH, "&q=" + search + "&type=channel", false));
 
             var response = await _client.GetAsync(uri).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
@@ -67,9 +68,10 @@ namespace NotifyYou.API
             return await Task.FromResult(activity);
         }
 
-        private string GenerateUrl(string pathVar, string extras)
+        private string GenerateUrl(string pathVar, string extras, bool containParts)
         {
-            return BASE_YOUTUBE_URL + pathVar + "?" + PART + extras + API_KEY + YoutubeApiKey.Key;
+            string part = !containParts ? PART : PART_CONTENTS;
+            return BASE_YOUTUBE_URL + pathVar + "?" + part  + extras + API_KEY + YoutubeApiKey.Key;
         }
 
     }
