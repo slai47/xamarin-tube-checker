@@ -41,12 +41,7 @@ namespace NotifyYou.ViewModels
         {
             MessagingCenter.Subscribe<ChannelActivityEvent>(this, EVENT_ACTIVITY, (activity) =>
             {
-                StoredChannel channel = Channels.First(c => c.ChannelId == activity.ChannelId);
-                YoutubeActivity latest = activity.Result.items.OrderBy(act => act.Snippet.PublishedAt).First();
-                channel.LastVideoId = latest.Id;
-                channel.LastVideoImageLink = latest.ImageLink;
-                channel.Activity = latest;
-                App.ChannelsDatastore.AddUpdate(channel);
+                OnActivityReceive(activity);
 
             });
             MessagingCenter.Subscribe<ChannelsAddRemoveEvent>(this, EVENT_ADDREMOVE, (addRemoveEvent) =>
@@ -80,7 +75,6 @@ namespace NotifyYou.ViewModels
             if (Channels.Count == 0 || force)
             {
                 IsProgressVisible = true;
-                Channels.Clear();
             }
             var channels = App.ChannelsDatastore.GetAllChannels();
             foreach (StoredChannel channel in channels)
@@ -92,6 +86,7 @@ namespace NotifyYou.ViewModels
         private void GetChannelActivity(StoredChannel channel, bool force)
         {
             IYoutube api = new YoutubeApi();
+            channel.Searching = true;
             if (channel.Activity == null || force)
                 Task.Run(() => {
                     Task<YoutubeCall<YoutubeActivity>> result = Task.Run(() => api.GetChannelActivity(channel.ChannelId));
@@ -103,15 +98,15 @@ namespace NotifyYou.ViewModels
         private void OnActivityReceive(ChannelActivityEvent activityEvent)
         {
             StoredChannel channel = App.ChannelsDatastore.GetAllChannels().First(c => c.ChannelId == activityEvent.ChannelId);
+            int index = Channels.IndexOf(channel);
             YoutubeActivity latest = activityEvent.Result.items.OrderByDescending(act => act.Snippet.PublishedAt).First();
-            channel.NewVideo = channel.LastVideoId.Equals(latest.Id);
-            channel.LastVideoId = latest.Id;
+            channel.NewVideo = channel.LastVideoId.Equals(latest.VideoId);
+            channel.LastVideoId = latest.VideoId;
             channel.LastVideoImageLink = latest.ImageLink;
             channel.LastVideoTitle = latest.Snippet.Title;
             channel.LastVideoTime = latest.Snippet.PublishedAt.ToShortDateString() + " " + latest.Snippet.PublishedAt.ToShortTimeString();
             channel.Activity = latest;
             App.ChannelsDatastore.AddUpdate(channel);
-            int index = Channels.IndexOf(channel);
             if(index >= 0)
             {
                 Channels[index] = channel;
@@ -119,6 +114,7 @@ namespace NotifyYou.ViewModels
             {
                 Channels.Add(channel);
             }
+            channel.Searching = false;
             IsProgressVisible &= Channels.Count != App.ChannelsDatastore.GetAllChannels().Count;
         }
     }

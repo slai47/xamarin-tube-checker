@@ -16,7 +16,7 @@ namespace NotifyYou.API
         const string SEARCH = "search";
         const string CHANNELS = "channels";
         const string ACTIIVTY = "activities";
-        const string PART = "part=snippet";
+        const string PART = "part=snippet%2CcontentDetails";
         const string API_KEY = "&key=";
 
         HttpClient _client;

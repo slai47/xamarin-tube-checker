@@ -39,6 +39,20 @@ namespace NotifyYou.Models
         public string LastVideoTime { get; set; }
         [Ignore]
         public bool NewVideo { get; set; }
+        public bool _searching;
+        [Ignore]
+        public bool Searching
+        {
+            get
+            {
+                return _searching;
+            }
+            set
+            {
+                _searching = value;
+                OnPropertyChanged(nameof(Searching));
+            }
+        }
 
         [Ignore]
         public string ImageUrl

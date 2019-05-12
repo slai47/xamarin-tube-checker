@@ -8,7 +8,6 @@ namespace NotifyYou.Models.Channel
         public ChannelInfo Id { get; set; }
         public ChannelSnippet Snippet { get; set; }
 
-
         #region Quick code
         public string ChannelTitle
         {

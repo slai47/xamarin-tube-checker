@@ -1,4 +1,5 @@
 ﻿using System;
+using NotifyYou.Models.Channel;
 using SQLite;
 
 namespace NotifyYou.Models.Activity
@@ -8,6 +9,18 @@ namespace NotifyYou.Models.Activity
         public string Id { get; set; }
         public string Kind { get; set; }
         public ActivitySnippet Snippet { get; set; }
+        public ChannelContent ContentDetails { get; set; }
+
+        public string VideoId
+        {
+            get
+            {
+                string videoId = "";
+                if(ContentDetails != null && ContentDetails.Upload != null)
+                    videoId = ContentDetails.Upload.VideoId;
+                return videoId;
+            }
+        }
 
         public string ImageLink
         {
