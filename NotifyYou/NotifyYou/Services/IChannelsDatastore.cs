@@ -14,7 +14,7 @@ namespace NotifyYou.Services
         ICollection<NotificationSetting> GetAllSettings();
         NotificationSetting GetSetting(string id);
         bool UpdateNotificationSetting(string id, NotificationSetting setting);
-
+        bool Exists(string channelId);
         Task<bool> Init();
     }
 }

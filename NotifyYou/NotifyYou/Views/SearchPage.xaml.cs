@@ -42,7 +42,7 @@ namespace NotifyYou.Views
         void Handle_ItemTapped(object sender, Xamarin.Forms.ItemTappedEventArgs e)
         {
             YoutubeChannel item = (YoutubeChannel)e.Item;
-            bool isActive = App.ChannelsDatastore.GetAllChannels().Any(channel => channel.ChannelId == item.ChannelId);
+            bool isActive = App.ChannelsDatastore.Exists(item.ChannelId);
             item.IsActive = !isActive;
             if (!isActive) 
                 App.ChannelsDatastore.AddUpdate(new Models.StoredChannel(item));

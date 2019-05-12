@@ -35,29 +35,28 @@ namespace NotifyYou.ViewModels
                     GetChannelActivity(channel, false);
                 } else
                 {
-                    try
-                    {
-                        var channel = Channels.First(c => c.ChannelId == channelId);
+                    var channel = Channels.First(c => c.ChannelId == channelId);
+                    if(channel != null)
                         Channels.Remove(channel);
-                        StoredChannel sc = App.ChannelsDatastore.Get(channel.ChannelId);
-                        if (sc != null)
-                            App.ChannelsDatastore.Delete(channel.ChannelId);
-                    }
-                    catch (Exception)
-                    {
-                    }
+                    if (App.ChannelsDatastore.Exists(channel.ChannelId))
+                        App.ChannelsDatastore.Delete(channelId);
                 }
             });
         }
 
         public void CallForAllChannelActivities(bool force)
         {
-            ChannelsViewModel vm = this;
-            var channels = App.ChannelsDatastore.GetAllChannels();
-            foreach (StoredChannel channel in channels)
+            if(Channels.Count == 0)
             {
-                if (!force)
+                var channels = App.ChannelsDatastore.GetAllChannels();
+                foreach(var channel in channels)
+                {
                     Channels.Add(channel);
+                }
+            }
+
+            foreach (StoredChannel channel in Channels)
+            {
                 GetChannelActivity(channel, force);
             }
         }
@@ -78,7 +77,7 @@ namespace NotifyYou.ViewModels
         {
             StoredChannel channel = Channels.First(c => c.ChannelId == activityEvent.ChannelId);
             YoutubeActivity latest = activityEvent.Result.items.OrderByDescending(act => act.Snippet.PublishedAt).First();
-            channel.NewVideo = !channel.LastVideoId.Equals(latest.VideoId);
+            channel.NewVideo = channel.LastVideoId == null || !channel.LastVideoId.Equals(latest.VideoId);
             channel.LastVideoId = latest.VideoId;
             channel.LastVideoImageLink = latest.ImageLink;
             channel.LastVideoTitle = latest.Snippet.Title;

@@ -31,7 +31,7 @@ namespace NotifyYou.Services
 
         public void AddUpdate(StoredChannel item, NotificationSetting setting = null)
         {
-            bool exists = channels.Exists(channel => channel.ChannelId == item.ChannelId);
+            bool exists = Exists(item.ChannelId);
             if (!exists)
             {
                 channels.Add(item);
@@ -58,9 +58,14 @@ namespace NotifyYou.Services
 
         }
 
+        public bool Exists(string channelId)
+        {
+            return channels.Exists(channel => channel.ChannelId == channelId);
+        }
+
         public bool Delete(string id)
         {
-            StoredChannel channel = channels.First(c => c.ChannelId == id);
+            StoredChannel channel = Get(id);
             channels.Remove(channel);
             NotificationSetting setting = settings.First(c => channel.ChannelId == id);
             settings.Remove(setting);

@@ -30,8 +30,9 @@ namespace NotifyYou.API
         public async Task<YoutubeCall<YoutubeActivity>> GetChannelActivity(string id)
         {
             YoutubeCall<YoutubeActivity> activity = new YoutubeCall<YoutubeActivity>();
-
-            var uri = new Uri(GenerateUrl(ACTIIVTY, "&channelId=" + id, true));
+            string url = GenerateUrl(ACTIIVTY, "&channelId=" + id, true);
+            Console.WriteLine("ChannelActivity: " + url);
+            var uri = new Uri(url);
 
             var response = await _client.GetAsync(uri).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
@@ -51,8 +52,9 @@ namespace NotifyYou.API
         public async Task<YoutubeCall<YoutubeChannel>> GetChannels(string search)
         {
             YoutubeCall<YoutubeChannel> activity = new YoutubeCall<YoutubeChannel>();
-
-            var uri = new Uri(GenerateUrl(SEARCH, "&q=" + search + "&type=channel", false));
+            string url = GenerateUrl(SEARCH, "&q=" + search + "&type=channel", false);
+            Console.WriteLine("Channel: " + url);
+            var uri = new Uri(url);
 
             var response = await _client.GetAsync(uri).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)

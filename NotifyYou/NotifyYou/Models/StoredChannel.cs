@@ -17,6 +17,7 @@ namespace NotifyYou.Models
         {
             ChannelId = channel.ChannelId;
             Name = channel.ChannelTitle;
+            Active = true;
             Link = "https://www.youtube.com/channel/" + ChannelId;
             BestImageUrl = grabUrl(channel.Snippet.Thumbnails.maxres);
             HighImageUrl = grabUrl(channel.Snippet.Thumbnails.high);
@@ -27,6 +28,7 @@ namespace NotifyYou.Models
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
         public string ChannelId { get; set; }
+        public bool Active { get; set; }
         public string Name { get; set; }
         public string Link { get; set; }
         public string BestImageUrl { get; set; }
