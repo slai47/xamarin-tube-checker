@@ -120,7 +120,7 @@ namespace NotifyYou.Services
             var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "NotifyYou.db");
 
             var db = new SQLiteAsyncConnection(databasePath);
-            db.InsertAsync(channel);
+            var ret = db.InsertOrReplaceAsync(channel);
         }
 
         private void Update(StoredChannel channel)
@@ -128,7 +128,8 @@ namespace NotifyYou.Services
             var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "NotifyYou.db");
 
             var db = new SQLiteAsyncConnection(databasePath);
-            db.UpdateAsync(channel);
+            var ret = db.UpdateAsync(channel);
+
         }
 
         private void Save(NotificationSetting setting)

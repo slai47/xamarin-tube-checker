@@ -20,12 +20,19 @@
                                          Orientation="Vertical"
                                              >
                                     <Label Text="{Binding LastVideoTitle}" 
-                                           Style="{DynamicResource ListItemTextStyle}" 
-                                           FontSize="14" />
+                                           Style="{DynamicResource ListItemTextStyle}"
+                                           FontSize="14"
+                                           >
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label"  Binding="{Binding NewVideo}" Value="True">
+                                                <Setter Property="FontAttributes" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
                                 
                                     <Image Aspect="AspectFit"
                                            Source="{Binding ImageUrl}"
-                                           HeightRequest="150"
+                                           HeightRequest="200"
                                            HorizontalOptions="CenterAndExpand"
                                            />
                                 
@@ -37,13 +44,25 @@
                                                LineBreakMode="NoWrap" 
                                                HorizontalOptions="Start"
                                                Style="{DynamicResource ListItemTextStyle}" 
-                                               FontSize="10" />
+                                               FontSize="10">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label"  Binding="{Binding NewVideo}" Value="True">
+                                                    <Setter Property="FontAttributes" Value="Bold"/>
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
                                     
                                         <Label Text="{Binding LastVideoTime}" 
                                                HorizontalOptions="EndAndExpand"
                                                LineBreakMode="NoWrap" 
                                                Style="{DynamicResource ListItemTextStyle}" 
-                                               FontSize="10" />
+                                               FontSize="10" >
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label"  Binding="{Binding NewVideo}" Value="True">
+                                                    <Setter Property="FontAttributes" Value="Bold"/>
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
                                     </StackLayout>
                                 </StackLayout>
                             </ViewCell>

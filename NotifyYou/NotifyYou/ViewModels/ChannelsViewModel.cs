@@ -34,7 +34,7 @@ namespace NotifyYou.ViewModels
         public ChannelsViewModel()
         {
             SetupSubscribes();
-            CallForActivity(false);
+            CallForAllChannelActivities(false);
         }
 
         private void SetupSubscribes()
@@ -47,7 +47,7 @@ namespace NotifyYou.ViewModels
                 channel.LastVideoImageLink = latest.ImageLink;
                 channel.Activity = latest;
                 App.ChannelsDatastore.AddUpdate(channel);
-                
+
             });
             MessagingCenter.Subscribe<ChannelsAddRemoveEvent>(this, EVENT_ADDREMOVE, (addRemoveEvent) =>
             {
@@ -56,13 +56,17 @@ namespace NotifyYou.ViewModels
                 {
                     StoredChannel channel = App.ChannelsDatastore.Get(channelId);
                     Channels.Add(channel);
+                    GetChannelActivity(channel, false);
                 } else
                 {
                     try
                     {
                         var channel = Channels.First(c => c.ChannelId == channelId);
                         Channels.Remove(channel);
-                    } 
+                        StoredChannel sc = App.ChannelsDatastore.Get(channel.ChannelId);
+                        if (sc != null)
+                            App.ChannelsDatastore.Delete(channel.ChannelId);
+                    }
                     catch (Exception)
                     {
                     }
@@ -70,9 +74,8 @@ namespace NotifyYou.ViewModels
             });
         }
 
-        public void CallForActivity(bool force)
+        public void CallForAllChannelActivities(bool force)
         {
-            IYoutube api = new YoutubeApi();
             ChannelsViewModel vm = this;
             if (Channels.Count == 0 || force)
             {
@@ -82,26 +85,40 @@ namespace NotifyYou.ViewModels
             var channels = App.ChannelsDatastore.GetAllChannels();
             foreach (StoredChannel channel in channels)
             {
-                if(channel.Activity == null || force)
-                    Task.Run(() => {
-                        Task<YoutubeCall<YoutubeActivity>> result = Task.Run(() => api.GetChannelActivity(channel.ChannelId));
-                        var webResult = result.Result;
-                        OnActivityReceive(new ChannelActivityEvent(channel.ChannelId, webResult));
-                    });
+                GetChannelActivity(channel, force);
             }
+        }
+
+        private void GetChannelActivity(StoredChannel channel, bool force)
+        {
+            IYoutube api = new YoutubeApi();
+            if (channel.Activity == null || force)
+                Task.Run(() => {
+                    Task<YoutubeCall<YoutubeActivity>> result = Task.Run(() => api.GetChannelActivity(channel.ChannelId));
+                    var webResult = result.Result;
+                    OnActivityReceive(new ChannelActivityEvent(channel.ChannelId, webResult));
+                });
         }
 
         private void OnActivityReceive(ChannelActivityEvent activityEvent)
         {
             StoredChannel channel = App.ChannelsDatastore.GetAllChannels().First(c => c.ChannelId == activityEvent.ChannelId);
             YoutubeActivity latest = activityEvent.Result.items.OrderByDescending(act => act.Snippet.PublishedAt).First();
+            channel.NewVideo = channel.LastVideoId.Equals(latest.Id);
             channel.LastVideoId = latest.Id;
             channel.LastVideoImageLink = latest.ImageLink;
             channel.LastVideoTitle = latest.Snippet.Title;
             channel.LastVideoTime = latest.Snippet.PublishedAt.ToShortDateString() + " " + latest.Snippet.PublishedAt.ToShortTimeString();
             channel.Activity = latest;
             App.ChannelsDatastore.AddUpdate(channel);
-            Channels.Add(channel);
+            int index = Channels.IndexOf(channel);
+            if(index >= 0)
+            {
+                Channels[index] = channel;
+            } else
+            {
+                Channels.Add(channel);
+            }
             IsProgressVisible &= Channels.Count != App.ChannelsDatastore.GetAllChannels().Count;
         }
     }

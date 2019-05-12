@@ -23,7 +23,7 @@ namespace NotifyYou.Views
 
             ChannelsListView.RefreshCommand = new Command(() =>
             {
-                viewModel.CallForActivity(true);
+                viewModel.CallForAllChannelActivities(true);
                 ChannelsListView.IsRefreshing = false;
             });
         }
@@ -42,5 +42,6 @@ namespace NotifyYou.Views
 
             Device.OpenUri(new Uri(url));
         }
+
     }
 }

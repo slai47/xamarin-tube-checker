@@ -39,7 +39,6 @@ namespace NotifyYou.Views
             searchViewModel.Search(SearchText.Text);
         }
 
-
         void Handle_ItemTapped(object sender, Xamarin.Forms.ItemTappedEventArgs e)
         {
             YoutubeChannel item = (YoutubeChannel)e.Item;

@@ -70,20 +70,23 @@
                     VerticalOptions="FillAndExpand"
                     HorizontalOptions="Fill"
                     x:Name="SearchText"
-                   Keyboard="Text"
+                    Keyboard="Text"
                        />
                    <RelativeLayout
-                    Grid.Column="4"
-                    Grid.ColumnSpan="2"
+                        Grid.Column="4"
+                        Grid.ColumnSpan="2"
                         >
                         <Button 
                             x:Name="SearchButton"
                             Text="Search"
                             Clicked="Search_Clicked"
                             BackgroundColor="#320b86"
-                            WidthRequest="80"
+                            WidthRequest="100"
                             HeightRequest="40"
                             TextColor="White"
+                            RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
+                                Property=Height,
+                                Factor=0.25}"
                         />
                         <ActivityIndicator 
                             x:Name="SearchProgress"
@@ -92,7 +95,7 @@
                             Color="#320b86"
                             RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
                                 Property=Height,
-                                Factor=0.33}"
+                                Factor=0.5}"
                             />
                 </RelativeLayout>
             </Grid>

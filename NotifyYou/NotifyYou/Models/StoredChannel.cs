@@ -24,7 +24,7 @@ namespace NotifyYou.Models
             StandardImageUrl = grabUrl(channel.Snippet.Thumbnails.standard);
         }
 
-        [PrimaryKey]
+        [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
         public string ChannelId { get; set; }
         public string Name { get; set; }
@@ -37,6 +37,8 @@ namespace NotifyYou.Models
         public string LastVideoImageLink { get; set; }
         public string LastVideoTitle { get; set; }
         public string LastVideoTime { get; set; }
+        [Ignore]
+        public bool NewVideo { get; set; }
 
         [Ignore]
         public string ImageUrl
@@ -69,9 +71,16 @@ namespace NotifyYou.Models
         public YoutubeActivity Activity { 
         get { return _activity; } 
         set { 
-            _activity = value;
-            OnPropertyChanged(nameof(Activity));
-        } }
+                _activity = value;
+                OnPropertyChanged(nameof(Activity));
+                OnPropertyChanged(nameof(NewVideo));
+                OnPropertyChanged(nameof(LastVideoId));
+                OnPropertyChanged(nameof(LastVideoImageLink));
+                OnPropertyChanged(nameof(LastVideoTitle));
+                OnPropertyChanged(nameof(LastVideoTime));
+                OnPropertyChanged(nameof(ImageUrl));
+            } 
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
@@ -86,6 +95,5 @@ namespace NotifyYou.Models
                 ret = info.url;
             return ret;
         }
-
     }
 }
