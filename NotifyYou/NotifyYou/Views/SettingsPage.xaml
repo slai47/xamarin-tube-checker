@@ -13,8 +13,9 @@
                 
             </sv:Section>
             <sv:Section Title="About">
-                <sv:LabelCell Title="Attribution" ValueText="Testing"/>
                 <sv:LabelCell Title="Version" x:Name="verisonInfo"/>
+                <sv:CommandCell Title="Github" x:Name="github" Description="App Github Location" Command="{Binding Github}"/>
+                <sv:LabelCell Title="Attribution" Description="play by Perametade Games from the Noun Project, setting by Rose Alice Design from the Noun Project"/>
             </sv:Section>
             
         </sv:SettingsView>

@@ -31,8 +31,8 @@
             
             <Style TargetType="sv:SettingsView">
                 <Setter Property="SeparatorColor" Value="{StaticResource svDisabledColor}" />
-                <Setter Property="BackgroundColor" Value="{StaticResource svPaleBackColorPrimary}" />
-                <Setter Property="HeaderBackgroundColor" Value="{StaticResource svPaleBackColorPrimary}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource AppBackground}" />
+                <Setter Property="HeaderBackgroundColor" Value="{StaticResource AppBackground}" />
                 <Setter Property="CellBackgroundColor" Value="{StaticResource AppBackground}" />
                 <Setter Property="CellTitleColor" Value="{StaticResource svDeepTextColor}" />
                 <Setter Property="CellValueTextColor" Value="{StaticResource svNormalTextColor}" />

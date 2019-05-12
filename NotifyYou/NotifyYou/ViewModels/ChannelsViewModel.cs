@@ -39,7 +39,7 @@ namespace NotifyYou.ViewModels
                     if(channel != null)
                         Channels.Remove(channel);
                     if (App.ChannelsDatastore.Exists(channel.ChannelId))
-                        App.ChannelsDatastore.Delete(channelId);
+                        App.ChannelsDatastore.Delete(channel.ChannelId);
                 }
             });
         }
