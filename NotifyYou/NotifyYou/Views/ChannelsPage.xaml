@@ -21,10 +21,12 @@
                             <StackLayout Padding="10"
                                      Orientation="Vertical"
                                          >
-                                <Image Aspect="AspectFit"
+                                <ImageButton Aspect="AspectFit"
                                        Source="{Binding ImageUrl}"
                                        HeightRequest="200"
                                        HorizontalOptions="CenterAndExpand"
+                                       Command="{Binding ViewUrlCommand}"
+                                       BackgroundColor="Transparent"
                                        />
                             
                                 <Label Text="{Binding LastVideoTitle}" 

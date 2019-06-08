@@ -55,7 +55,13 @@ namespace NotifyYou.Services
                     Update(setting);
                 }
             }
+        }
 
+        public void AddUpdate(NotificationSetting setting)
+        {
+            int settingIndex = FindIndexOfSettingId(setting.ChannelId);
+            settings[settingIndex] = setting;
+            Update(setting);
         }
 
         public bool Exists(string channelId)

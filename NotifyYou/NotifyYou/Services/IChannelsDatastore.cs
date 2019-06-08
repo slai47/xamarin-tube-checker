@@ -8,6 +8,7 @@ namespace NotifyYou.Services
     public interface IChannelsDataStore
     {
         void AddUpdate(StoredChannel item, NotificationSetting setting = null);
+        void AddUpdate(NotificationSetting setting);
         bool Delete(string id);
         StoredChannel Get(string id);
         ICollection<StoredChannel> GetAllChannels();

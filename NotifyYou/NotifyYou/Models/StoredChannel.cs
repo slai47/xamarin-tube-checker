@@ -1,8 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Windows.Input;
 using NotifyYou.Models.Activity;
 using NotifyYou.Models.Channel;
+using NotifyYou.Models.Events;
 using SQLite;
+using Xamarin.Forms;
 
 namespace NotifyYou.Models
 {
@@ -19,10 +22,10 @@ namespace NotifyYou.Models
             Name = channel.ChannelTitle;
             Active = true;
             Link = "https://www.youtube.com/channel/" + ChannelId;
-            BestImageUrl = grabUrl(channel.Snippet.Thumbnails.maxres);
-            HighImageUrl = grabUrl(channel.Snippet.Thumbnails.high);
-            MediumImageUrl = grabUrl(channel.Snippet.Thumbnails.medium);
-            StandardImageUrl = grabUrl(channel.Snippet.Thumbnails.standard);
+            BestImageUrl = GrabUrl(channel.Snippet.Thumbnails.maxres);
+            HighImageUrl = GrabUrl(channel.Snippet.Thumbnails.high);
+            MediumImageUrl = GrabUrl(channel.Snippet.Thumbnails.medium);
+            StandardImageUrl = GrabUrl(channel.Snippet.Thumbnails.standard);
         }
 
         [PrimaryKey, AutoIncrement]
@@ -97,14 +100,45 @@ namespace NotifyYou.Models
                 OnPropertyChanged(nameof(ImageUrl));
             } 
         }
+        [Ignore]
+        public ICommand ViewUrlCommand
+        {
+            get
+            {
+                return new Command((obj) =>
+                {
+                    string url = "";
+                    if (!string.IsNullOrEmpty(LastVideoId))
+                    {
+                        url = "http://youtube.com/watch?v=" + LastVideoId;
+                    }
+                    else
+                    {
+                        url = "http://youtube.com/channel/" + ChannelId;
+                    }
 
+                    Device.OpenUri(new Uri(url));
+                });
+            }
+        }
+        [Ignore]
+        public ICommand ViewSettingCommand
+        {
+            get
+            {
+                return new Command((obj) =>
+                {
+                    MessagingCenter.Send(this, "View Settings", new ChannelViewSettingsEvent(ChannelId));
+                });
+            }
+        }
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private String grabUrl(ImageInfo info)
+        private String GrabUrl(ImageInfo info)
         {
             string ret = "";
             if(info != null)

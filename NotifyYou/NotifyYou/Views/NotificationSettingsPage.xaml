@@ -1,5 +1,65 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="NotifyYou.Views.NotificationSettings">
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="NotifyYou.Views.NotificationSettings"
+             BackgroundColor="Transparent"
+             >
     <ContentPage.Content>
+        <StackLayout Orientation="Vertical"
+                     VerticalOptions="End"
+                     BackgroundColor="White"
+                     >
+            <StackLayout Orientation="Horizontal" 
+                         Padding="20,30,20,30"
+                        x:Name="activeSetting">
+                <Label Text="Active" 
+                       VerticalOptions="Center"
+                       HorizontalOptions="Start"
+                       FontSize="Large"/>
+                <Switch HorizontalOptions="EndAndExpand" 
+                        IsToggled="{Binding IsActive}"/>
+            </StackLayout>
+            
+            <StackLayout BackgroundColor="Black"
+                         HeightRequest="1"
+                         >
+            </StackLayout>
+            
+            <StackLayout Padding="20,30,20,10">
+                <StackLayout Orientation="Horizontal"
+                             IsEnabled="{Binding IsActive}"
+                             x:Name="soundSetting"
+                             >
+                    <Label Text="Sound" 
+                           VerticalOptions="Center"
+                           HorizontalOptions="Start"
+                           IsEnabled="{Binding IsActive}"/>
+                    <Switch HorizontalOptions="EndAndExpand" 
+                            IsToggled="{Binding SoundOn}"
+                            IsEnabled="{Binding IsActive}"/>
+                </StackLayout>
+                
+                <StackLayout Orientation="Horizontal"
+                             IsEnabled="{Binding IsDisabled}"
+                             x:Name="vibrateSetting">
+                    <Label Text="Vibrate" 
+                           VerticalOptions="Center"
+                           HorizontalOptions="Start"
+                            IsEnabled="{Binding IsActive}"/>
+                    <Switch HorizontalOptions="EndAndExpand" 
+                            IsToggled="{Binding VibrateOn}"
+                            IsEnabled="{Binding IsActive}"/>
+                </StackLayout>
+            </StackLayout>
+            
+            <Button HorizontalOptions="FillAndExpand"
+                    VerticalOptions="End"
+                    Text="Back"
+                    BackgroundColor="#320b86"
+                    TextColor="White"
+                    Margin="20,10,20,10"
+                    Clicked="HandleBack"
+                    />
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

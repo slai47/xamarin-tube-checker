@@ -45,7 +45,7 @@ namespace NotifyYou.ViewModels
 
         public void Search(string search)
         {
-            if (search.Count() > 0)
+            if (search.Any())
             {
                 Toggle(true);
                 if (SearchList.Count > 0)

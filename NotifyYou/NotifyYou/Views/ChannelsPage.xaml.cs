@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NotifyYou.Models;
+using NotifyYou.Models.Events;
 using NotifyYou.ViewModels;
 using Xamarin.Forms;
 
@@ -28,21 +29,15 @@ namespace NotifyYou.Views
             {
                 HeightRequest = 80
             };
+
         }
 
         void Handle_ItemTapped(object sender, Xamarin.Forms.ItemTappedEventArgs e)
         {
             StoredChannel item = (StoredChannel)e.Item;
-            string url = "";
-            if (!string.IsNullOrEmpty(item.LastVideoId))
-            {
-                url = "http://youtube.com/watch?v=" + item.LastVideoId;
-            } else
-            {
-                url = "http://youtube.com/channel/" + item.ChannelId;
-            }
-
-            Device.OpenUri(new Uri(url));
+            NotificationSetting settings = App.ChannelsDatastore.GetSetting(item.ChannelId);
+            NotificationSettings notificationSettingsView = new NotificationSettings(settings);
+            Navigation.PushModalAsync(notificationSettingsView);
         }
 
     }
