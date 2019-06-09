@@ -10,9 +10,9 @@ namespace NotifyYou.Services
 {
     public class YoutubeChannelsDataStore : IChannelsDataStore
     {
-        List<StoredChannel> channels;
-        List<NotificationSetting> settings;
-        bool mockMode;
+        List<StoredChannel> Channels;
+        List<NotificationSetting> Settings;
+        bool MockMode;
 
         private static object CollisionLock = new object();
 
@@ -20,10 +20,10 @@ namespace NotifyYou.Services
 
         public YoutubeChannelsDataStore(bool mockMode)
         {
-            channels = new List<StoredChannel>();
-            settings = new List<NotificationSetting>();
+            Channels = new List<StoredChannel>();
+            Settings = new List<NotificationSetting>();
             // grab stored data from saved data
-            this.mockMode = mockMode;
+            MockMode = mockMode;
             if (mockMode)
             {
                 InsertMockData();
@@ -40,24 +40,24 @@ namespace NotifyYou.Services
             bool exists = Exists(item.ChannelId);
             if (!exists)
             {
-                channels.Add(item);
+                Channels.Add(item);
                 if(setting == null)
                 {
                     setting = new NotificationSetting(item.ChannelId);
                     Save(setting);
                 }
-                settings.Add(setting);
+                Settings.Add(setting);
                 Save(item);
             }
             else
             {
                 int index = FindIndexOfChannelId(item.ChannelId);
-                channels[index] = item;
+                Channels[index] = item;
                 Update(item);
                 if(setting != null)
                 {
                     int settingIndex = FindIndexOfSettingId(item.ChannelId);
-                    settings[settingIndex] = setting;
+                    Settings[settingIndex] = setting;
                     Update(setting);
                 }
             }
@@ -66,21 +66,21 @@ namespace NotifyYou.Services
         public void AddUpdate(NotificationSetting setting)
         {
             int settingIndex = FindIndexOfSettingId(setting.ChannelId);
-            settings[settingIndex] = setting;
+            Settings[settingIndex] = setting;
             Update(setting);
         }
 
         public bool Exists(string channelId)
         {
-            return channels.Exists(channel => channel.ChannelId == channelId);
+            return Channels.Exists(channel => channel.ChannelId == channelId);
         }
 
         public bool Delete(string id)
         {
             StoredChannel channel = Get(id);
-            channels.Remove(channel);
-            NotificationSetting setting = settings.First(c => channel.ChannelId == id);
-            settings.Remove(setting);
+            Channels.Remove(channel);
+            NotificationSetting setting = Settings.First(c => channel.ChannelId == id);
+            Settings.Remove(setting);
 
             DeleteChannel(channel.ChannelId);
             DeleteSetting(channel.ChannelId);
@@ -90,30 +90,30 @@ namespace NotifyYou.Services
 
         public StoredChannel Get(string id)
         {
-            StoredChannel channel = channels.Find(chan => chan.ChannelId == id);
+            StoredChannel channel = Channels.Find(chan => chan.ChannelId == id);
             return channel;
         }
 
         public ICollection<StoredChannel> GetAllChannels()
         {
-            return channels;
+            return Channels;
         }
 
         public ICollection<NotificationSetting> GetAllSettings()
         {
-            return settings;
+            return Settings;
         }
 
         public NotificationSetting GetSetting(string id)
         {
-            NotificationSetting setting = settings.Find(set => set.ChannelId == id);
+            NotificationSetting setting = Settings.Find(set => set.ChannelId == id);
             return setting;
         }
 
         public bool UpdateNotificationSetting(string id, NotificationSetting setting)
         {
             int index = FindIndexOfSettingId(id);
-            settings[index] = setting;
+            Settings[index] = setting;
             return true;
         }
 
@@ -126,8 +126,8 @@ namespace NotifyYou.Services
             db.CreateTable<StoredChannel>();
             db.CreateTable<NotificationSetting>();
 
-            channels = db.Table<StoredChannel>().ToList();
-            settings = db.Table<NotificationSetting>().ToList();
+            Channels = db.Table<StoredChannel>().ToList();
+            Settings = db.Table<NotificationSetting>().ToList();
             return Task.FromResult(true);
         }
 
@@ -185,12 +185,12 @@ namespace NotifyYou.Services
 
         private int FindIndexOfChannelId(string id)
         {
-            return channels.FindIndex(channel => channel.ChannelId == id);
+            return Channels.FindIndex(channel => channel.ChannelId == id);
         }
 
         private int FindIndexOfSettingId(string id)
         {
-            return settings.FindIndex(set => set.ChannelId == id);
+            return Settings.FindIndex(set => set.ChannelId == id);
         }
          
         #endregion
@@ -219,8 +219,8 @@ namespace NotifyYou.Services
                 new NotificationSetting(mockItems[5].ChannelId) { Active = false, Sound = false }
             };
 
-            channels.AddRange(mockItems);
-            settings.AddRange(mockSettings);
+            Channels.AddRange(mockItems);
+            Settings.AddRange(mockSettings);
         }
 
 
