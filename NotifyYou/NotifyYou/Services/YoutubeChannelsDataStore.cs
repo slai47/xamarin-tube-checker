@@ -14,6 +14,10 @@ namespace NotifyYou.Services
         List<NotificationSetting> settings;
         bool mockMode;
 
+        private static object CollisionLock = new object();
+
+        private SQLiteAsyncConnection DbConnection;
+
         public YoutubeChannelsDataStore(bool mockMode)
         {
             channels = new List<StoredChannel>();
@@ -24,6 +28,8 @@ namespace NotifyYou.Services
             {
                 InsertMockData();
             }
+            var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "NotifyYou.db");
+            DbConnection = new SQLiteAsyncConnection(databasePath);
         }
 
 
@@ -122,58 +128,55 @@ namespace NotifyYou.Services
 
             channels = db.Table<StoredChannel>().ToList();
             settings = db.Table<NotificationSetting>().ToList();
-
             return Task.FromResult(true);
         }
 
         private void Save(StoredChannel channel)
         {
-            var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "NotifyYou.db");
-
-            var db = new SQLiteAsyncConnection(databasePath);
-            var ret = db.InsertOrReplaceAsync(channel);
+            lock (CollisionLock)
+            {
+                DbConnection.InsertAsync(channel);
+            }
         }
 
         private void Update(StoredChannel channel)
         {
-            var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "NotifyYou.db");
-
-            var db = new SQLiteAsyncConnection(databasePath);
-            var ret = db.UpdateAsync(channel);
-
+            lock (CollisionLock)
+            {
+                DbConnection.UpdateAsync(channel);
+            }
         }
 
         private void Save(NotificationSetting setting)
         {
-            var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "NotifyYou.db");
-
-            var db = new SQLiteAsyncConnection(databasePath);
-            db.InsertAsync(setting);
+            lock (CollisionLock)
+            {
+                DbConnection.InsertAsync(setting);
+            }
         }
 
         private void Update(NotificationSetting setting)
         {
-            var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "NotifyYou.db");
-
-            var db = new SQLiteAsyncConnection(databasePath);
-            db.UpdateAsync(setting);
+            lock (CollisionLock)
+            {
+                DbConnection.UpdateAsync(setting);
+            }
         }
 
         private void DeleteChannel(String channelId)
         {
-            var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "NotifyYou.db");
-
-            var db = new SQLiteConnection(databasePath);
-            db.Delete(channelId, db.GetMapping<StoredChannel>());
-
+            lock (CollisionLock)
+            {
+                DbConnection.DeleteAsync<StoredChannel>(channelId);
+            }
         }
 
         private void DeleteSetting(String settingId)
         {
-            var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "NotifyYou.db");
-
-            var db = new SQLiteConnection(databasePath);
-            db.Delete(settingId, db.GetMapping<NotificationSetting>());
+            lock (CollisionLock)
+            {
+                DbConnection.DeleteAsync<NotificationSetting>(settingId);
+            }
         }
 
         #endregion
@@ -189,7 +192,7 @@ namespace NotifyYou.Services
         {
             return settings.FindIndex(set => set.ChannelId == id);
         }
-
+         
         #endregion
 
         #region mocking
